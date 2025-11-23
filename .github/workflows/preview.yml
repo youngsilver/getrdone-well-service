@@ -1,0 +1,39 @@
+name: Preview deploy (develop)
+
+on:
+  push:
+    branches: [ develop ]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  preview-develop:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: "pages-preview-develop"
+      cancel-in-progress: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js (optional)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Build (no build step required)
+        run: echo "Publishing preview for develop to gh-pages/previews/develop"
+
+      - name: Deploy preview to gh-pages/previews/develop
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          publish_branch: gh-pages
+          destination_dir: previews/develop
