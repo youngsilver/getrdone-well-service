@@ -89,8 +89,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const ctaButtons = document.querySelectorAll('.btn-primary, .btn-secondary');
     ctaButtons.forEach(button => {
         button.addEventListener('click', function() {
-            console.log('CTA clicked:', this.textContent.trim());
-            // Analytics tracking could be added here
+            // Analytics tracking can be added here
+            // Example: gtag('event', 'cta_click', { button_text: this.textContent.trim() });
         });
     });
 });
