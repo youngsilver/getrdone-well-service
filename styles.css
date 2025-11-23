@@ -59,9 +59,26 @@ body {
 }
 
 .logo {
-    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
-    color: var(--primary-color);
+}
+
+.text-red {
+    color: red;
+    font-size: 2rem;
+}
+
+.logo-r {
+    height: 2.2rem;
+    margin: 0 0.2rem;
+}
+
+.well-service {
+    font-size: 1.2rem;
+    color: black;
+    margin-top: 0.5rem;
 }
 
 .nav-menu {
