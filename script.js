@@ -104,9 +104,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (navLink && scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
                 document.querySelectorAll('.nav-menu a').forEach(link => {
-                    link.style.color = '';
+                    link.classList.remove('active');
                 });
-                navLink.style.color = 'var(--primary-color)';
+                navLink.classList.add('active');
             }
         });
     });
