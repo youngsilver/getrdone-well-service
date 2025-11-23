@@ -15,6 +15,15 @@
     --white: #ffffff;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+    /* Hero overlay tuning: reduce these to tone down the blue tint */
+    --hero-overlay-start: rgba(30, 64, 175, 0.15);
+    --hero-overlay-end: rgba(59, 130, 246, 0.08);
+    /* Fallback animated water tints (low alpha to keep effect subtle) */
+    --water-radial-a: rgba(96, 165, 250, 0.08);
+    --water-radial-b: rgba(59, 130, 246, 0.06);
+    --water-center-start: rgba(59, 130, 246, 0.06);
+    --water-center-end: rgba(30, 64, 175, 0.04);
 }
 
 body {
@@ -128,9 +137,9 @@ body {
     width: 100%;
     height: calc(100vh - 60px);
     background: 
-        radial-gradient(ellipse at 30% 60%, rgba(96, 165, 250, 0.3) 0%, transparent 50%),
-        radial-gradient(ellipse at 70% 40%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, #3b82f6 0%, #1e40af 100%);
+        radial-gradient(ellipse at 30% 60%, var(--water-radial-a) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 40%, var(--water-radial-b) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, var(--water-center-start) 0%, var(--water-center-end) 100%);
     z-index: -2;
     animation: waterFlow 20s ease-in-out infinite;
 }
@@ -156,7 +165,8 @@ body {
     left: 0;
     width: 100%;
     height: calc(100vh - 60px);
-    background: linear-gradient(135deg, rgba(30, 64, 175, 0.7) 0%, rgba(59, 130, 246, 0.6) 100%);
+    /* Use CSS variables so the tint is easy to tweak */
+    background: linear-gradient(135deg, var(--hero-overlay-start) 0%, var(--hero-overlay-end) 100%);
     z-index: 0;
     pointer-events: none;
 }
