@@ -5,15 +5,13 @@ on:
     branches: [ development ]
 
 permissions:
+  contents: write
   pages: write
   id-token: write
 
 jobs:
   preview-develop:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     concurrency:
       group: "pages-preview-develop"
       cancel-in-progress: true
@@ -30,23 +28,22 @@ jobs:
           node-version: '18'
 
       - name: Build (no build step required)
-        run: echo "Publishing development preview to GitHub Actions Pages"
+        run: echo "Publishing preview for develop to gh-pages/previews/develop"
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy preview to gh-pages/previews/develop
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          path: '.'
-
-      - name: Deploy to GitHub Pages (development preview)
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          publish_branch: gh-pages
+          destination_dir: previews/develop
 
       - name: Write development preview URL to summary
         run: |
+          REPO_OWNER="${{ github.repository_owner }}"
+          REPO_NAME="${{ github.event.repository.name }}"
+          PREVIEW_URL="https://${REPO_OWNER}.github.io/${REPO_NAME}/previews/develop/"
           echo "## 🔍 Development Preview" >> $GITHUB_STEP_SUMMARY
-          echo "Development branch deployed to: [${{ steps.deployment.outputs.page_url }}](${{ steps.deployment.outputs.page_url }})" >> $GITHUB_STEP_SUMMARY
+          echo "Development branch deployed to: [$PREVIEW_URL]($PREVIEW_URL)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Note:** This overwrites the production site temporarily. Push to main to restore production." >> $GITHUB_STEP_SUMMARY
+          echo "**Note:** Preview URL works when Pages is set to 'Deploy from a branch' (gh-pages)." >> $GITHUB_STEP_SUMMARY
