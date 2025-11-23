@@ -59,4 +59,39 @@ This website operates under Christ-centered principles, dedicated to the glory o
 
 ---
 
-*"Whatever you do, work at it with all your heart, as working for the Lord." — Colossians 3:23*
+"Whatever you do, work at it with all your heart, as working for the Lord." — Colossians 3:23*
+
+
+## Deployment
+
+This repository includes a GitHub Actions workflow that publishes the site to GitHub Pages. It supports two environments so you can develop without overwriting the production site:
+
+- Production: triggered when pushing to `main`. Publishes the site at the repository root to the `gh-pages` branch (served as the main site).
+- Preview: triggered for other branches and pull requests. Publishes a preview under `gh-pages` in the `previews/<ref>/` subfolder so each branch/PR gets an isolated preview.
+
+Workflow path: `.github/workflows/deploy.yml`
+
+How it works:
+
+1. Push changes to `main` to update production (example: `git add .; git commit -m "Deploy site"; git push origin main`).
+2. Push to other branches or open/update a pull request to get a preview deployment.
+3. The preview is published under `gh-pages/previews/<ref>` where `<ref>` is either `pr-<number>` for PR previews or a sanitized branch name for branch previews.
+
+Preview URL examples:
+
+- Project site production: `https://<username>.github.io/<repository>/`
+- Preview for `feature/foo` branch: `https://<username>.github.io/<repository>/previews/feature-foo/`
+- Preview for PR #7: `https://<username>.github.io/<repository>/previews/pr-7/`
+
+Notes:
+
+- If Pages doesn't appear automatically after the first deploy, enable Pages in Settings -> Pages and choose the `gh-pages` branch.
+- Change `publish_dir` in `.github/workflows/deploy.yml` if you add a build step (for example `dist/`).
+- The workflow uses the repository `GITHUB_TOKEN` so no extra secrets are required.
+
+If you'd like, I can also:
+
+- Add a CNAME step for custom domains.
+- Change preview naming (timestamped previews, or include commit SHA).
+- Add automatic cleanup of older previews.
+
