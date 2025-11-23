@@ -53,6 +53,33 @@ body {
     font-size: 1.25rem;
     font-weight: bold;
     color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo img {
+    height: 44px;
+    max-height: 44px;
+    width: auto;
+    max-width: 200px;
+    display: block;
+    object-fit: contain;
+}
+
+/* Responsive logo sizing: smaller on mobile, larger on desktop */
+@media (max-width: 767px) {
+    .logo img {
+        height: 36px;
+        max-height: 36px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .logo img {
+        height: 56px;
+        max-height: 56px;
+    }
 }
 
 .nav-menu {
