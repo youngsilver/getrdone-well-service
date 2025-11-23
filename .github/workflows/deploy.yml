@@ -10,6 +10,9 @@ jobs:
   production:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     permissions:
       pages: write
       id-token: write
@@ -26,20 +29,22 @@ jobs:
       - name: Build (no build step required)
         run: echo "No build step; publishing repository root to GitHub Pages (production)"
 
-      - name: Deploy to GitHub Pages (production)
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
-          publish_branch: gh-pages
+          path: '.'
+
+      - name: Deploy to GitHub Pages (production)
+        id: deployment
+        uses: actions/deploy-pages@v4
 
       - name: Write production URL to summary
         run: |
-          REPO_OWNER="${{ github.repository_owner }}"
-          REPO_NAME="${{ github.event.repository.name }}"
-          PRODUCTION_URL="https://${REPO_OWNER}.github.io/${REPO_NAME}/"
           echo "## 🚀 Production Deployment" >> $GITHUB_STEP_SUMMARY
-          echo "Site deployed to: [$PRODUCTION_URL]($PRODUCTION_URL)" >> $GITHUB_STEP_SUMMARY
+          echo "Site deployed to: [${{ steps.deployment.outputs.page_url }}](${{ steps.deployment.outputs.page_url }})" >> $GITHUB_STEP_SUMMARY
 
   preview:
     # Run for branches and pull requests, but not for main (production handled above)
@@ -74,13 +79,12 @@ jobs:
       - name: Build (no build step required)
         run: echo "No build step; publishing repository root to GitHub Pages (preview)"
 
-      - name: Deploy preview to gh-pages/previews/<ref>
+      - name: Deploy preview (still uses peaceiris for subfolder support)
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./
           publish_branch: gh-pages
-          # destination_dir places files under a subfolder inside the branch
           destination_dir: previews/${{ steps.vars.outputs.ref }}
 
       - name: Write preview URL to summary
@@ -92,3 +96,5 @@ jobs:
           echo "## 🔍 Preview Deployment" >> $GITHUB_STEP_SUMMARY
           echo "Preview deployed to: [$PREVIEW_URL]($PREVIEW_URL)" >> $GITHUB_STEP_SUMMARY
           echo "Branch/PR: \`${{ github.ref }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Note:** Preview uses gh-pages branch method for subfolder support. May take 2-3 minutes to update." >> $GITHUB_STEP_SUMMARY

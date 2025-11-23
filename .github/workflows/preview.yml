@@ -45,3 +45,5 @@ jobs:
           PREVIEW_URL="https://${REPO_OWNER}.github.io/${REPO_NAME}/previews/develop/"
           echo "## 🔍 Development Preview" >> $GITHUB_STEP_SUMMARY
           echo "Development branch deployed to: [$PREVIEW_URL]($PREVIEW_URL)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Note:** It may take a few minutes for GitHub Pages to update. If you get a 404, wait 2-3 minutes and try again." >> $GITHUB_STEP_SUMMARY
