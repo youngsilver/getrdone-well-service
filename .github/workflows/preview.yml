@@ -37,3 +37,11 @@ jobs:
           publish_dir: ./
           publish_branch: gh-pages
           destination_dir: previews/develop
+
+      - name: Write development preview URL to summary
+        run: |
+          REPO_OWNER="${{ github.repository_owner }}"
+          REPO_NAME="${{ github.event.repository.name }}"
+          PREVIEW_URL="https://${REPO_OWNER}.github.io/${REPO_NAME}/previews/develop/"
+          echo "## 🔍 Development Preview" >> $GITHUB_STEP_SUMMARY
+          echo "Development branch deployed to: [$PREVIEW_URL]($PREVIEW_URL)" >> $GITHUB_STEP_SUMMARY
