@@ -1,0 +1,78 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main, '**' ]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  production:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (for caching, optional)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Build (no build step required)
+        run: echo "No build step; publishing repository root to GitHub Pages (production)"
+
+      - name: Deploy to GitHub Pages (production)
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          publish_branch: gh-pages
+
+  preview:
+    # Run for branches and pull requests, but not for main (production handled above)
+    if: github.ref != 'refs/heads/main' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (for caching, optional)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Determine preview path
+        id: vars
+        run: |
+          # Use PR number if available, otherwise branch name
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            REF="pr-${{ github.event.number }}"
+          else
+            # sanitize branch name for file path
+            REF="${GITHUB_REF#refs/heads/}"
+            REF="$(echo "$REF" | sed -E 's/[^A-Za-z0-9._-]/-/g')"
+          fi
+          echo "ref=$REF" >> $GITHUB_OUTPUT
+
+      - name: Build (no build step required)
+        run: echo "No build step; publishing repository root to GitHub Pages (preview)"
+
+      - name: Deploy preview to gh-pages/previews/<ref>
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          publish_branch: gh-pages
+          # destination_dir places files under a subfolder inside the branch
+          destination_dir: previews/${{ steps.vars.outputs.ref }}
