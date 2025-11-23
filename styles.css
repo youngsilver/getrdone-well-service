@@ -108,7 +108,7 @@ body {
     margin-top: 60px;
 }
 
-/* Video Background */
+/* Video Background - Cloudinary hosted video */
 .hero-video {
     position: fixed;
     top: 60px;

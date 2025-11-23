@@ -28,27 +28,10 @@
 
     <!-- Hero Section with Video Background -->
     <section class="hero">
-        <!-- 
-            Background Video Configuration:
-            - The video will autoplay, loop, and stay muted for autoplay to work
-            - The 'playsinline' attribute ensures mobile compatibility
-            - The 'poster' shows a fallback image while loading
-            - Currently uses animated CSS background as fallback (see styles.css)
-            
-            RECOMMENDED VIDEO:
-            Download from: https://www.pexels.com/video/slow-motion-close-up-of-washing-hands-34762374/
-            By: Andrew Schwark from Pexels
-            
-            TO ADD THE VIDEO:
-            1. Visit the Pexels link above
-            2. Click "Free Download" and choose HD 1920x1080 or HD 1280x720
-            3. Save as 'hand-in-water.mp4' in a 'videos' folder
-            4. Uncomment the <source> line below
-            5. See VIDEO_SETUP.md for complete instructions
-        -->
-        <video class="hero-video" autoplay muted loop playsinline poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Cdefs%3E%3CradialGradient id='g' cx='50%25' cy='50%25'%3E%3Cstop offset='0%25' style='stop-color:%233b82f6;stop-opacity:0.9'/%3E%3Cstop offset='100%25' style='stop-color:%231e40af;stop-opacity:1'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23g)'/%3E%3Cpath d='M960 300 Q700 450 960 600 Q1220 450 960 300' fill='rgba(255,255,255,0.1)'/%3E%3Cpath d='M800 500 Q650 600 800 700 Q950 600 800 500' fill='rgba(255,255,255,0.08)'/%3E%3C/svg%3E">
-            <!-- Uncomment this line after downloading and adding the video to the videos folder: -->
-            <!-- <source src="videos/hand-in-water.mp4" type="video/mp4"> -->
+        <!-- Cloudinary hosted water video background -->
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="https://res.cloudinary.com/dwpwv98sk/video/upload/14737244_1920_1080_24fps_urpot5.mp4" type="video/mp4">
+            <source src="https://res.cloudinary.com/dwpwv98sk/video/upload/14737244_1920_1080_24fps_urpot5.webm" type="video/webm">
         </video>
         <div class="hero-overlay"></div>
         <div class="hero-content">
@@ -183,7 +166,7 @@
                     <em>"Whatever you do, work at it with all your heart, as working for the Lord." — Colossians 3:23</em>
                 </p>
                 <p class="footer-attribution">
-                    Hero video by <a href="https://www.pexels.com/@andrew-schwark-2076667686/" target="_blank" rel="noopener">Andrew Schwark</a> from <a href="https://www.pexels.com/" target="_blank" rel="noopener">Pexels</a>
+                    Hero video from <a href="https://www.pexels.com/" target="_blank" rel="noopener">Pexels</a>
                 </p>
             </div>
         </div>
