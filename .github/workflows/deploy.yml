@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main, '**' ]
+    branches: [ main ]
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -46,55 +46,4 @@ jobs:
           echo "## 🚀 Production Deployment" >> $GITHUB_STEP_SUMMARY
           echo "Site deployed to: [${{ steps.deployment.outputs.page_url }}](${{ steps.deployment.outputs.page_url }})" >> $GITHUB_STEP_SUMMARY
 
-  preview:
-    # Run for branches and pull requests, but not for main (production handled above)
-    if: github.ref != 'refs/heads/main' || github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js (for caching, optional)
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
-      - name: Determine preview path
-        id: vars
-        run: |
-          # Use PR number if available, otherwise branch name
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            REF="pr-${{ github.event.number }}"
-          else
-            # sanitize branch name for file path
-            REF="${GITHUB_REF#refs/heads/}"
-            REF="$(echo "$REF" | sed -E 's/[^A-Za-z0-9._-]/-/g')"
-          fi
-          echo "ref=$REF" >> $GITHUB_OUTPUT
-
-      - name: Build (no build step required)
-        run: echo "No build step; publishing repository root to GitHub Pages (preview)"
-
-      - name: Deploy preview (still uses peaceiris for subfolder support)
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
-          publish_branch: gh-pages
-          destination_dir: previews/${{ steps.vars.outputs.ref }}
-
-      - name: Write preview URL to summary
-        run: |
-          REPO_OWNER="${{ github.repository_owner }}"
-          REPO_NAME="${{ github.event.repository.name }}"
-          REF="${{ steps.vars.outputs.ref }}"
-          PREVIEW_URL="https://${REPO_OWNER}.github.io/${REPO_NAME}/previews/${REF}/"
-          echo "## 🔍 Preview Deployment" >> $GITHUB_STEP_SUMMARY
-          echo "Preview deployed to: [$PREVIEW_URL]($PREVIEW_URL)" >> $GITHUB_STEP_SUMMARY
-          echo "Branch/PR: \`${{ github.ref }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Note:** Preview uses gh-pages branch method for subfolder support. May take 2-3 minutes to update." >> $GITHUB_STEP_SUMMARY
