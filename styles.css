@@ -60,9 +60,15 @@ body {
 
 .logo {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
+}
+
+.logo-main {
+    display: flex;
+    align-items: center;
 }
 
 .text-red {
@@ -76,9 +82,11 @@ body {
 }
 
 .well-service {
-    font-size: 1.2rem;
-    color: black;
-    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-top: -2px;
 }
 
 .nav-menu {
@@ -139,9 +147,10 @@ body {
     position: fixed;
     top: 60px;
     left: 0;
-    width: 100%;
-    height: calc(100vh - 60px);
+    width: 120%;
+    height: calc(100vh - 60px + 20%);
     object-fit: cover;
+    transform: translate(-10%, -10%) scale(0.9);
     z-index: -1;
 }
 
@@ -200,7 +209,15 @@ body {
     color: var(--white);
     margin-bottom: 2rem;
     font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 
+        2px 2px 8px rgba(0, 0, 0, 0.8),
+        0px 0px 20px rgba(0, 0, 0, 0.6),
+        1px 1px 3px rgba(0, 0, 0, 1);
+    background: rgba(0, 0, 0, 0.25);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .scripture {
@@ -377,6 +394,74 @@ body {
     color: var(--text-color);
     margin-bottom: 1.5rem;
     line-height: 1.6;
+}
+
+/* Service Details Section */
+.service-details {
+    padding: 4rem 0;
+    background: var(--light-color);
+}
+
+.service-details h2 {
+    font-size: 2rem;
+    color: var(--dark-color);
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.service-detail {
+    background: var(--white);
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--primary-color);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.service-detail:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.service-detail h3 {
+    font-size: 1.5rem;
+    color: var(--dark-color);
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+}
+
+.service-detail p {
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+    font-size: 1.1rem;
+}
+
+.service-detail ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+}
+
+.service-detail ul li {
+    padding: 0.5rem 0;
+    color: var(--text-color);
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.service-detail ul li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.service-detail .btn {
+    margin-top: 1rem;
 }
 
 /* Testimonials Section */
