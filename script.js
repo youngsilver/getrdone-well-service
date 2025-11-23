@@ -5,21 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (navToggle) {
         navToggle.addEventListener('click', function() {
-            navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
-            
-            // Update for mobile display
-            if (window.innerWidth < 768) {
-                if (navMenu.style.display === 'flex') {
-                    navMenu.style.flexDirection = 'column';
-                    navMenu.style.position = 'absolute';
-                    navMenu.style.top = '100%';
-                    navMenu.style.left = '0';
-                    navMenu.style.right = '0';
-                    navMenu.style.background = 'white';
-                    navMenu.style.padding = '1rem';
-                    navMenu.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-                }
-            }
+            navMenu.classList.toggle('open');
         });
     }
     
@@ -28,24 +14,12 @@ document.addEventListener('DOMContentLoaded', function() {
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             if (window.innerWidth < 768) {
-                navMenu.style.display = 'none';
+                navMenu.classList.remove('open');
             }
         });
     });
     
-    // Parallax effect for hero section
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        window.addEventListener('scroll', function() {
-            const scrolled = window.pageYOffset;
-            const parallaxSpeed = 0.5;
-            
-            if (hero.style.backgroundAttachment !== 'fixed') {
-                hero.style.backgroundPositionY = scrolled * parallaxSpeed + 'px';
-            }
-        });
-    }
-    
+
     // Smooth scroll with offset for fixed header
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
