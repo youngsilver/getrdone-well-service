@@ -5,6 +5,11 @@
     box-sizing: border-box;
 }
 
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+}
+
 :root {
     --primary-color: #1e40af;
     --secondary-color: #3b82f6;
@@ -210,7 +215,7 @@ body {
 
 .hero-title {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
+    font-weight: 800;
     font-size: 2.2rem;
     color: var(--white);
     margin-bottom: 2rem;
@@ -229,9 +234,11 @@ body {
 }
 
 .scripture {
-    font-family: 'Great Vibes', cursive;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-style: italic;
     color: var(--white);
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     margin: 2rem 0;
     line-height: 1.8;
 }
@@ -356,15 +363,20 @@ body {
 
 /* Services Section */
 .services {
-    padding: 4rem 0;
-    background: var(--light-color);
+    padding: 6rem 0;
+    background: transparent;
 }
 
 .services h2 {
     font-size: 2rem;
-    color: var(--dark-color);
+    color: var(--white);
     text-align: center;
     margin-bottom: 3rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
 }
 
 .services-grid {
@@ -407,14 +419,19 @@ body {
 /* Service Details Section */
 .service-details {
     padding: 4rem 0;
-    background: var(--light-color);
+    background: transparent;
 }
 
 .service-details h2 {
     font-size: 2rem;
-    color: var(--dark-color);
+    color: var(--white);
     text-align: center;
     margin-bottom: 3rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
 }
 
 .service-detail {
