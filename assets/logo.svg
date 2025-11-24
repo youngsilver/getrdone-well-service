@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="100" viewBox="0 0 400 100" role="img" aria-label="GET'R'DONE Well Service logo">
+  <title>GET'R'DONE Well Service</title>
+  <defs>
+    <linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="100%" stop-color="#1e40af"/>
+    </linearGradient>
+  </defs>
+  <!-- simple water drop mark -->
+  <g transform="translate(10,10)">
+    <path d="M30 0 C14 28 14 48 30 68 C46 48 46 28 30 0 Z" fill="url(#g)" stroke="#1e40af" stroke-width="2"/>
+  </g>
+  <!-- wordmark -->
+  <g transform="translate(80,60)">
+    <text x="0" y="0" font-family="Segoe UI, Roboto, Arial, sans-serif" font-size="20" font-weight="700" fill="#0f172a">GET'R'DONE</text>
+    <text x="0" y="24" font-family="Segoe UI, Roboto, Arial, sans-serif" font-size="12" fill="#334155">Well Service</text>
+  </g>
+</svg>

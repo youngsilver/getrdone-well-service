@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main, '**' ]
+    branches: [ main ]
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -10,6 +10,9 @@ jobs:
   production:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     permissions:
       contents: write
       pages: write
@@ -47,32 +50,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js (for caching, optional)
-        uses: actions/setup-node@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          node-version: '18'
+          path: '.'
 
-      - name: Determine preview path
-        id: vars
+      - name: Deploy to GitHub Pages (production)
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Write production URL to summary
         run: |
-          # Use PR number if available, otherwise branch name
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            REF="pr-${{ github.event.number }}"
-          else
-            # sanitize branch name for file path
-            REF="${GITHUB_REF#refs/heads/}"
-            REF="$(echo "$REF" | sed -E 's/[^A-Za-z0-9._-]/-/g')"
-          fi
-          echo "ref=$REF" >> $GITHUB_OUTPUT
+          echo "## 🚀 Production Deployment" >> $GITHUB_STEP_SUMMARY
+          echo "Site deployed to: [${{ steps.deployment.outputs.page_url }}](${{ steps.deployment.outputs.page_url }})" >> $GITHUB_STEP_SUMMARY
 
-      - name: Build (no build step required)
-        run: echo "No build step; publishing repository root to GitHub Pages (preview)"
 
-      - name: Deploy preview to gh-pages/previews/<ref>
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
-          publish_branch: gh-pages
-          # destination_dir places files under a subfolder inside the branch
-          destination_dir: previews/${{ steps.vars.outputs.ref }}
