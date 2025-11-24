@@ -216,7 +216,7 @@ body {
 .hero-title {
     font-family: 'Montserrat', sans-serif;
     font-weight: 800;
-    font-size: 1.6rem;
+    font-size: 2.5rem; /* Starting size - will be dynamically adjusted */
     color: var(--white);
     margin-bottom: 2rem;
     text-shadow: 
@@ -235,6 +235,8 @@ body {
     line-height: 1.2;
     overflow: hidden;
     box-sizing: border-box;
+    min-font-size: 1rem;
+    max-font-size: 3rem;
 }
 
 .scripture {
@@ -242,11 +244,14 @@ body {
     font-weight: 300;
     font-style: italic;
     color: var(--white);
-    font-size: 1.2rem;
+    font-size: 1.5rem; /* Starting size - will be dynamically adjusted */
     margin: 2rem auto;
-    line-height: 1.8;
+    line-height: 1.4;
     text-align: center;
-    max-width: fit-content;
+    max-width: 90vw;
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .scripture-ref {
@@ -645,7 +650,6 @@ body {
 /* Mobile Menu Styles */
 @media (max-width: 767px) {
     .hero-title {
-        font-size: 1.2rem;
         max-width: 95%;
         padding: 0.6rem 1rem;
     }
@@ -682,7 +686,6 @@ body {
 /* Medium to Large Screens - Critical breakpoint around 760px */
 @media (min-width: 768px) and (max-width: 1199px) {
     .hero-title {
-        font-size: 1.4rem;
         max-width: 85vw;
     }
 }
@@ -690,14 +693,12 @@ body {
 /* Large Screens */
 @media (min-width: 1200px) {
     .hero-title {
-        font-size: 1.6rem;
         max-width: 75vw;
     }
 }
 
 @media (min-width: 1400px) {
     .hero-title {
-        font-size: 1.8rem;
         max-width: 70vw;
     }
 }
@@ -705,7 +706,6 @@ body {
 /* Very Small Screens */
 @media (max-width: 480px) {
     .hero-title {
-        font-size: 1.1rem;
         max-width: 95%;
         padding: 0.5rem 0.8rem;
     }
