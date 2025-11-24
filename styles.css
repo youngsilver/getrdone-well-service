@@ -69,34 +69,34 @@ body {
     align-items: flex-start;
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
-}
-
-.logo-main {
+    color: var(--primary-color);
     display: flex;
     align-items: center;
-    white-space: nowrap;
+    gap: 0.5rem;
 }
 
-.text-red {
-    color: red;
-    font-size: 1.8rem;
-    line-height: 1;
+.logo img {
+    height: 44px;
+    max-height: 44px;
+    width: auto;
+    max-width: 200px;
+    display: block;
+    object-fit: contain;
 }
 
-.logo-r {
-    height: 1.6rem;
-    margin: 0 0.05rem;
-    vertical-align: middle;
+/* Responsive logo sizing: smaller on mobile, larger on desktop */
+@media (max-width: 767px) {
+    .logo img {
+        height: 36px;
+        max-height: 36px;
+    }
 }
 
-.well-service {
-    font-size: 0.7rem;
-    color: #333;
-    font-weight: 600;
-    letter-spacing: 2px;
-    margin-top: 2px;
-    text-align: center;
-    width: 100%;
+@media (min-width: 1024px) {
+    .logo img {
+        height: 56px;
+        max-height: 56px;
+    }
 }
 
 .nav-menu {
