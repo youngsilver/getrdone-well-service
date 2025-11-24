@@ -84,8 +84,9 @@ body {
 }
 
 .logo-r {
-    height: 1.8rem;
-    margin: 0 0.1rem;
+    height: 1.6rem;
+    margin: 0 0.05rem;
+    vertical-align: middle;
 }
 
 .well-service {
