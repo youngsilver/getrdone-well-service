@@ -1,67 +1,48 @@
-name: Deploy to GitHub Pages
+name: Preview deploy (develop)
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    types: [opened, synchronize, reopened]
+    branches: [ development ]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
 jobs:
-  production:
-    if: github.ref == 'refs/heads/main'
+  preview-develop:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    permissions:
-      contents: write
-      pages: write
-      id-token: write
+    concurrency:
+      group: "pages-preview-develop"
+      cancel-in-progress: true
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Setup Node.js (for caching, optional)
+      - name: Setup Node.js (optional)
         uses: actions/setup-node@v4
         with:
           node-version: '18'
 
       - name: Build (no build step required)
-        run: echo "No build step; publishing repository root to GitHub Pages (production)"
+        run: echo "Publishing preview for prod to gh-pages"
 
-      - name: Deploy to GitHub Pages (production)
+      - name: Deploy preview to gh-pages/previews/develop
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./
           publish_branch: gh-pages
 
-  preview:
-    # Run for branches and pull requests, but not for main (production handled above)
-    if: github.ref != 'refs/heads/main' || github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pages: write
-      id-token: write
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: '.'
-
-      - name: Deploy to GitHub Pages (production)
-        id: deployment
-        uses: actions/deploy-pages@v4
-
-      - name: Write production URL to summary
+      - name: Write development preview URL to summary
         run: |
-          echo "## 🚀 Production Deployment" >> $GITHUB_STEP_SUMMARY
-          echo "Site deployed to: [${{ steps.deployment.outputs.page_url }}](${{ steps.deployment.outputs.page_url }})" >> $GITHUB_STEP_SUMMARY
-
-
+          REPO_OWNER="${{ github.repository_owner }}"
+          REPO_NAME="${{ github.event.repository.name }}"
+          PREVIEW_URL="https://${REPO_OWNER}.github.io/${REPO_NAME}/previews/develop/"
+          echo "## 🔍 Development Preview" >> $GITHUB_STEP_SUMMARY
+          echo "Development branch deployed to: [$PREVIEW_URL]($PREVIEW_URL)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Note:** Preview URL works when Pages is set to 'Deploy from a branch' (gh-pages)." >> $GITHUB_STEP_SUMMARY

@@ -30,10 +30,20 @@ jobs:
       - name: Build (no build step required)
         run: echo "Publishing preview for develop to gh-pages/previews/develop"
 
-      - name: Deploy preview to gh-pages/previews/development
+      - name: Deploy preview to gh-pages/previews/develop
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./
           publish_branch: gh-pages
           destination_dir: previews/develop
+
+      - name: Write development preview URL to summary
+        run: |
+          REPO_OWNER="${{ github.repository_owner }}"
+          REPO_NAME="${{ github.event.repository.name }}"
+          PREVIEW_URL="https://${REPO_OWNER}.github.io/${REPO_NAME}/previews/develop/"
+          echo "## 🔍 Development Preview" >> $GITHUB_STEP_SUMMARY
+          echo "Development branch deployed to: [$PREVIEW_URL]($PREVIEW_URL)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Note:** Preview URL works when Pages is set to 'Deploy from a branch' (gh-pages)." >> $GITHUB_STEP_SUMMARY
