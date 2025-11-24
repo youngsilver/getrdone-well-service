@@ -136,7 +136,7 @@
     a .email-protected::before {
         font-size: inherit;
     }
-    /* Remove link-like styling from button spans */\n    .btn span {\n        text-decoration: none !important;\n        color: inherit !important;\n    }\n    </style>
+    /* Remove all hyperlink styling throughout the site */\n    .btn span {\n        text-decoration: none !important;\n        color: inherit !important;\n    }\n    .phone-hidden {\n        text-decoration: none !important;\n        color: inherit !important;\n        cursor: pointer;\n    }\n    .phone-hidden:hover {\n        text-decoration: none !important;\n        opacity: 0.8;\n    }\n    /* Remove blue link colors from all clickable elements */\n    span[onclick] {\n        text-decoration: none !important;\n        color: inherit !important;\n        cursor: pointer;\n    }\n    span[onclick]:hover {\n        text-decoration: none !important;\n        opacity: 0.8;\n    }\n    </style>
     <script>
     function showPhone(element) {
         // Try to find phone number as child element first (for buttons)
