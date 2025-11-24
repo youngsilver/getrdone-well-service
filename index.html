@@ -139,8 +139,16 @@
     </style>
     <script>
     function showPhone(element) {
-        const phoneSpan = element.querySelector('.phone-number');
-        const hiddenSpan = element.querySelector('.phone-hidden');
+        // Try to find phone number as child element first (for buttons)
+        let phoneSpan = element.querySelector('.phone-number');
+        let hiddenSpan = element.querySelector('.phone-hidden');
+        
+        // If not found as children, look for siblings (for footer/contact sections)
+        if (!phoneSpan) {
+            phoneSpan = element.parentElement.querySelector('.phone-number');
+            hiddenSpan = element;
+        }
+        
         if (phoneSpan && hiddenSpan) {
             phoneSpan.classList.add('show');
             hiddenSpan.style.display = 'none';
