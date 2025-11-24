@@ -5,6 +5,11 @@
     box-sizing: border-box;
 }
 
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+}
+
 :root {
     --primary-color: #1e40af;
     --secondary-color: #3b82f6;
@@ -15,6 +20,15 @@
     --white: #ffffff;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+    /* Hero overlay tuning: reduce these to tone down the blue tint */
+    --hero-overlay-start: rgba(30, 64, 175, 0.15);
+    --hero-overlay-end: rgba(59, 130, 246, 0.08);
+    /* Fallback animated water tints (low alpha to keep effect subtle) */
+    --water-radial-a: rgba(96, 165, 250, 0.08);
+    --water-radial-b: rgba(59, 130, 246, 0.06);
+    --water-center-start: rgba(59, 130, 246, 0.06);
+    --water-center-end: rgba(30, 64, 175, 0.04);
 }
 
 body {
@@ -50,7 +64,10 @@ body {
 }
 
 .logo {
-    font-size: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     color: var(--primary-color);
     display: flex;
@@ -138,11 +155,12 @@ body {
 /* Video Background - Cloudinary hosted video */
 .hero-video {
     position: fixed;
-    top: 60px;
+    top: 0;
     left: 0;
-    width: 100%;
-    height: calc(100vh - 60px);
+    width: 100vw;
+    height: 100vh;
     object-fit: cover;
+    transform: scale(1.1);
     z-index: -1;
 }
 
@@ -155,9 +173,9 @@ body {
     width: 100%;
     height: calc(100vh - 60px);
     background: 
-        radial-gradient(ellipse at 30% 60%, rgba(96, 165, 250, 0.3) 0%, transparent 50%),
-        radial-gradient(ellipse at 70% 40%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, #3b82f6 0%, #1e40af 100%);
+        radial-gradient(ellipse at 30% 60%, var(--water-radial-a) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 40%, var(--water-radial-b) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, var(--water-center-start) 0%, var(--water-center-end) 100%);
     z-index: -2;
     animation: waterFlow 20s ease-in-out infinite;
 }
@@ -183,7 +201,8 @@ body {
     left: 0;
     width: 100%;
     height: calc(100vh - 60px);
-    background: linear-gradient(135deg, rgba(30, 64, 175, 0.7) 0%, rgba(59, 130, 246, 0.6) 100%);
+    /* Use CSS variables so the tint is easy to tweak */
+    background: linear-gradient(135deg, var(--hero-overlay-start) 0%, var(--hero-overlay-end) 100%);
     z-index: 0;
     pointer-events: none;
 }
@@ -196,19 +215,44 @@ body {
 }
 
 .hero-title {
-    font-size: 2.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 2.5rem; /* Starting size - will be dynamically adjusted */
     color: var(--white);
     margin-bottom: 2rem;
-    font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 
+        2px 2px 6px rgba(0, 0, 0, 0.9),
+        0px 0px 15px rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.4);
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    max-width: 90vw;
+    margin-left: auto;
+    margin-right: auto;
+    white-space: nowrap;
+    line-height: 1.2;
+    overflow: hidden;
+    box-sizing: border-box;
+    min-font-size: 1rem;
+    max-font-size: 3rem;
 }
 
 .scripture {
-    color: var(--white);
-    font-size: 1.25rem;
-    margin: 2rem 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
     font-style: italic;
-    line-height: 1.8;
+    color: var(--white);
+    font-size: 1.5rem; /* Starting size - will be dynamically adjusted */
+    margin: 2rem auto;
+    line-height: 1.4;
+    text-align: center;
+    max-width: 90vw;
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .scripture-ref {
@@ -331,15 +375,20 @@ body {
 
 /* Services Section */
 .services {
-    padding: 4rem 0;
-    background: var(--light-color);
+    padding: 6rem 0;
+    background: transparent;
 }
 
 .services h2 {
     font-size: 2rem;
-    color: var(--dark-color);
+    color: var(--white);
     text-align: center;
     margin-bottom: 3rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
 }
 
 .services-grid {
@@ -377,6 +426,75 @@ body {
     color: var(--text-color);
     margin-bottom: 1.5rem;
     line-height: 1.6;
+}
+
+/* Service Details Section */
+.service-details {
+    padding: 4rem 0;
+    background: transparent;
+    position: relative;
+    z-index: 2;
+}
+
+.service-details h2 {
+    font-size: 2rem;
+    color: var(--white);
+    text-align: center;
+    margin-bottom: 3rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
+}
+
+.service-detail {
+    background: var(--white);
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--primary-color);
+}
+
+.service-detail h3 {
+    font-size: 1.5rem;
+    color: var(--dark-color);
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+}
+
+.service-detail p {
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+    font-size: 1.1rem;
+}
+
+.service-detail ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+}
+
+.service-detail ul li {
+    padding: 0.5rem 0;
+    color: var(--text-color);
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.service-detail ul li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.service-detail .btn {
+    margin-top: 1rem;
 }
 
 /* Testimonials Section */
@@ -532,6 +650,16 @@ body {
 
 /* Mobile Menu Styles */
 @media (max-width: 767px) {
+    .hero-title {
+        max-width: 95%;
+        padding: 0.6rem 1rem;
+    }
+    
+    .scripture {
+        font-size: 1rem;
+        max-width: 90%;
+    }
+    
     .nav-menu.open {
         flex-direction: column;
         position: absolute;
@@ -554,13 +682,38 @@ body {
         min-width: 100%;
         min-height: 100%;
     }
-    
+}
+
+/* Medium to Large Screens - Critical breakpoint around 760px */
+@media (min-width: 768px) and (max-width: 1199px) {
     .hero-title {
-        font-size: 2rem;
+        max-width: 85vw;
+    }
+}
+
+/* Large Screens */
+@media (min-width: 1200px) {
+    .hero-title {
+        max-width: 75vw;
+    }
+}
+
+@media (min-width: 1400px) {
+    .hero-title {
+        max-width: 70vw;
+    }
+}
+
+/* Very Small Screens */
+@media (max-width: 480px) {
+    .hero-title {
+        max-width: 95%;
+        padding: 0.5rem 0.8rem;
     }
     
     .scripture {
-        font-size: 1rem;
+        font-size: 0.9rem;
+        max-width: 95%;
     }
 }
 
