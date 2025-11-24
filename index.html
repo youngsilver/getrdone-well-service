@@ -146,6 +146,19 @@
             hiddenSpan.style.display = 'none';
         }
     }
+    
+    function handleCallAction() {
+        // Check if device is mobile
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+        
+        if (isMobile) {
+            // On mobile: initiate phone call
+            window.location.href = 'tel:+14059857399';
+        } else {
+            // On desktop: scroll to contact section
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+        }
+    }
     </script>
 </head>
 <body>
@@ -190,7 +203,7 @@
             </div>
             <div class="hero-cta">
                 <a href="#contact" class="btn btn-primary">Schedule Service Today</a>
-                <span class="btn btn-secondary" onclick="showPhone(this)">Call <span class="phone-hidden">Phone</span><span class="phone-number">(405) 985-7399</span></span>
+                <span class="btn btn-primary" onclick="handleCallAction()">Call Now</span>
             </div>
         </div>
     </section>
