@@ -1,0 +1,72 @@
+name: Promote Development to Main
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "promote" to confirm promotion of development to main'
+        required: true
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  promote-to-main:
+    if: github.event.inputs.confirm == 'promote'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout development branch
+        uses: actions/checkout@v4
+        with:
+          ref: development
+          fetch-depth: 0
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Check if preview files exist
+        run: |
+          if [ ! -d "previews/develop" ]; then
+            echo "Error: previews/develop directory not found in development branch"
+            exit 1
+          fi
+          echo "Preview files found in previews/develop"
+
+      - name: Switch to main branch
+        run: |
+          git checkout main
+          git pull origin main
+
+      - name: Copy preview files to root
+        run: |
+          # Remove existing files (except .github and .git)
+          find . -maxdepth 1 -type f ! -name '.git*' ! -name 'README.md' -delete
+          
+          # Copy preview files from development branch
+          git checkout development -- previews/develop/
+          
+          # Move preview files to root
+          if [ -d "previews/develop" ]; then
+            mv previews/develop/* .
+            rm -rf previews/
+          fi
+
+      - name: Commit and push changes
+        run: |
+          git add .
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🚀 Promote development preview to main production"
+            git push origin main
+          fi
+
+      - name: Summary
+        run: |
+          echo "## 🚀 Development Promoted to Main" >> $GITHUB_STEP_SUMMARY
+          echo "Files from development/previews/develop/ have been copied to main branch root" >> $GITHUB_STEP_SUMMARY
+          echo "Production deployment will be triggered automatically" >> $GITHUB_STEP_SUMMARY
