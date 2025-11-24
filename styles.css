@@ -645,8 +645,8 @@ body {
 /* Mobile Menu Styles */
 @media (max-width: 767px) {
     .hero-title {
-        font-size: 1.5rem;
-        max-width: 90%;
+        font-size: 1.4rem;
+        max-width: 95%;
         padding: 0.6rem 1rem;
     }
     
@@ -679,17 +679,25 @@ body {
     }
 }
 
+/* Medium to Large Screens - Critical breakpoint around 760px */
+@media (min-width: 768px) and (max-width: 1199px) {
+    .hero-title {
+        font-size: 1.6rem;
+        max-width: 85vw;
+    }
+}
+
 /* Large Screens */
 @media (min-width: 1200px) {
     .hero-title {
-        font-size: 2rem;
-        max-width: 80vw;
+        font-size: 1.8rem;
+        max-width: 75vw;
     }
 }
 
 @media (min-width: 1400px) {
     .hero-title {
-        font-size: 2.2rem;
+        font-size: 2rem;
         max-width: 70vw;
     }
 }
