@@ -184,12 +184,9 @@ a:hover {
     left: 0;
     width: 100%;
     height: calc(100vh - 60px);
-    background: 
-        radial-gradient(ellipse at 30% 60%, var(--water-radial-a) 0%, transparent 50%),
-        radial-gradient(ellipse at 70% 40%, var(--water-radial-b) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, var(--water-center-start) 0%, var(--water-center-end) 100%);
+    background: transparent;
     z-index: -2;
-    animation: waterFlow 20s ease-in-out infinite;
+    animation: none;
 }
 
 @keyframes waterFlow {
@@ -214,7 +211,7 @@ a:hover {
     width: 100%;
     height: calc(100vh - 60px);
     /* Use CSS variables so the tint is easy to tweak */
-    background: linear-gradient(135deg, var(--hero-overlay-start) 0%, var(--hero-overlay-end) 100%);
+    background: transparent;
     z-index: 0;
     pointer-events: none;
 }
