@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>Photo Gallery | GET'R'DONE Well Service | Oklahoma Well Drilling Projects</title>
+    <meta name="description" content="View our completed water well drilling, pump installation, and repair projects throughout Central Oklahoma. Professional well service gallery showcasing quality workmanship.">
+    <meta name="keywords" content="well drilling photos, Oklahoma well projects, pump installation gallery, water well examples, GET'R'DONE portfolio">
+    <meta name="author" content="GET'R'DONE Well Service">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://getrdonewell.com/gallery.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://getrdonewell.com/gallery.html">
+    <meta property="og:title" content="Project Gallery | GET'R'DONE Well Service">
+    <meta property="og:description" content="Browse our completed well drilling and pump installation projects in Central Oklahoma.">
+    <meta property="og:image" content="https://getrdonewell.com/assets/logo.svg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,700;0,800;1,300&family=Open+Sans:wght@400&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+    /* Gallery-specific styles */
+    .gallery-page {
+        min-height: 100vh;
+        background: var(--light-color);
+    }
+    
+    .gallery-hero {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: var(--white);
+        padding: 8rem 0 4rem;
+        text-align: center;
+    }
+    
+    .gallery-hero h1 {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .gallery-hero p {
+        font-size: 1.25rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .gallery-main {
+        padding: 4rem 0;
+    }
+    
+    .gallery-filters {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .filter-btn {
+        background: transparent;
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+        padding: 0.75rem 1.5rem;
+        margin: 0.25rem;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-weight: 600;
+    }
+    
+    .filter-btn:hover,
+    .filter-btn.active {
+        background: var(--primary-color);
+        color: var(--white);
+    }
+    
+    .gallery-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+    
+    .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+        transition: all 0.3s ease;
+        background: var(--white);
+        cursor: pointer;
+    }
+    
+    .gallery-item:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .gallery-item img {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    
+    .gallery-item:hover img {
+        transform: scale(1.1);
+    }
+    
+    .gallery-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(30, 64, 175, 0.95) 0%, rgba(59, 130, 246, 0.9) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .gallery-item:hover .gallery-overlay {
+        opacity: 1;
+    }
+    
+    .gallery-content {
+        text-align: center;
+        color: var(--white);
+        padding: 2rem;
+    }
+    
+    .gallery-content h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+    }
+    
+    .gallery-content p {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+    
+    .loading {
+        text-align: center;
+        padding: 4rem 0;
+        color: var(--text-color);
+    }
+    
+    .back-link {
+        display: inline-block;
+        margin: 2rem 0;
+        padding: 1rem 2rem;
+        background: var(--primary-color);
+        color: var(--white);
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+        background: var(--secondary-color);
+        transform: translateY(-2px);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .gallery-hero h1 {
+            font-size: 2.5rem;
+        }
+        
+        .gallery-container {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .gallery-item img {
+            height: 220px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .gallery-container {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+    }
+    </style>
+</head>
+<body class="gallery-page">
+    <!-- Header/Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a class="logo" href="./">
+                <img src="assets/logo.png" alt="GET'R'DONE Well Service logo">
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="gallery.html" class="active">Gallery</a></li>
+                <li><a href="index.html#testimonials">Testimonials</a></li>
+                <li><a href="index.html#mission">Mission</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Gallery Hero -->
+    <section class="gallery-hero">
+        <div class="container">
+            <h1>Our Work Gallery</h1>
+            <p>Browse through our completed well drilling, pump installation, and repair projects throughout Central Oklahoma. Each project represents our commitment to quality and Christian excellence.</p>
+            <a href="index.html" class="back-link">← Back to Home</a>
+        </div>
+    </section>
+
+    <!-- Gallery Main -->
+    <section class="gallery-main">
+        <div class="container">
+            <!-- Gallery Filters -->
+            <div class="gallery-filters">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="drilling">Well Drilling</button>
+                <button class="filter-btn" data-filter="pump">Pump Installation</button>
+                <button class="filter-btn" data-filter="maintenance">Maintenance</button>
+                <button class="filter-btn" data-filter="emergency">Emergency Service</button>
+            </div>
+
+            <!-- Loading Message -->
+            <div id="loading" class="loading">
+                <p>Loading gallery images...</p>
+            </div>
+
+            <!-- Gallery Container -->
+            <div id="gallery-container" class="gallery-container" style="display: none;">
+                <!-- Images will be loaded here dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>GET'R'DONE Well Service</h4>
+                    <p>Professional water well services in Central Oklahoma</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html#services">Services</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="index.html#testimonials">Testimonials</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Phone: <span onclick="showPhone(this)" class="phone-hidden">Click to show</span><span class="phone-number"><a href="tel:+14059857399">(405) 985-7399</a></span></p>
+                    <p>Email: <a href="mailto:getrdonewellservice@gmail.com"><span class="email-protected">Email</span></a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 GET'R'DONE Well Service. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+    // Cloudinary gallery loader
+    const cloudName = 'dwpwv98sk';
+    
+    // Fetch images from Cloudinary folder
+    async function fetchCloudinaryImages() {
+        try {
+            // Use Cloudinary's search API (requires unsigned preset or API key)
+            // For now, we'll use a list of known image public IDs from your collection
+            
+            // Image filenames from local workspace folder
+            const imageNames = [
+                '242661379_226737669492665_3597495006994756209_n',
+                '466904869_976009151232176_134032163682675931_n',
+                '470191182_997617695737988_8321013667616989099_n',
+                '470201288_997617979071293_7768104636416904895_n',
+                '470210189_997617725737985_8292926847462963245_n',
+                '471168576_1002699451896479_7078592184597548354_n',
+                '471174967_1002699438563147_3584038358048446518_n',
+                '471180102_1002674931898931_1313166321183534330_n',
+                '471288865_1002699598563131_2002181379617845173_n',
+                '471296290_1002699338563157_7475318522288528270_n',
+                '471544457_1007216038111487_8960102016050119071_n',
+                '471593295_1007216191444805_4225044847483997359_n',
+                '471694187_1007215861444838_2184901407531083320_n',
+                '471781132_1007213011445123_4631364888575338472_n',
+                '471839947_1007215851444839_1278299766743571530_n',
+                '471917243_1007213031445121_6697316942652066732_n',
+                '471918871_1007550101411414_1146433745154849355_n',
+                '472178531_1010891144410643_3264741307896810237_n',
+                '472188310_1011625221003902_5102486199651714977_n',
+                '472189114_1010883171078107_7002065019757046676_n',
+                '472208568_1010884101078014_6685032735805050076_n',
+                '472209270_1010883197744771_4160283166212632786_n',
+                '472226098_1032674435567972_8438858675698068308_n',
+                '472235492_1011625227670568_8640768459986676581_n',
+                '472309525_1010893121077112_6169840243690091828_n',
+                '472340734_1010893184410439_5054819657021745092_n',
+                '472380481_1010891154410642_6423669285367935863_n',
+                '472543096_1010884247744666_6547032827234846590_n',
+                '472624874_1018631080303316_7846067407145351679_n',
+                '472669786_1010882964411461_256248888475654227_n',
+                '472724672_1032684498900299_9212516504331983408_n',
+                '472948161_1033717588796990_893663751374908193_n',
+                '473063142_1032849108883838_3894831505314310226_n',
+                '473224437_1018634183636339_7939018358028330875_n',
+                '473241276_1018634316969659_5380682860935485796_n',
+                '473426820_1018986833601074_4090780531367975679_n',
+                '473534995_1018634590302965_1445920101049439341_n',
+                '473571019_1018986646934426_8134257073711010795_n',
+                '473714023_1018634636969627_3317148294882030136_n',
+                '474977704_1027155889450835_7014012605917324404_n',
+                '484871512_1084972963671452_1784896308937003987_n',
+                '484872776_1084998960335519_920696179723231610_n',
+                '484899399_1084999280335487_6568238418582619101_n',
+                '484899418_1084976320337783_4190722636056279972_n',
+                '484900506_1084973273671421_5597178428422341121_n',
+                '484901887_1084973277004754_7305533406187997850_n',
+                '484902404_1084972940338121_6779952415356890044_n',
+                '484902614_1084973203671428_5633706069828606161_n',
+                '484904152_1084976380337777_1984268389679061356_n',
+                '484904956_1084972913671457_3981577531963898110_n',
+                '484905453_1084972907004791_1840629395942353522_n',
+                '484906215_1084973210338094_7827712630823244578_n',
+                '484906227_1084972867004795_3377297815494607868_n',
+                '484906386_1084973183671430_3534673497054903123_n',
+                '484907102_1084972830338132_6619165265527686886_n',
+                '484907190_1084999043668844_6029534645611480353_n',
+                '484907196_1084973083671440_7133045639418090186_n',
+                '484907199_1084973143671434_6479724032663801197_n',
+                '484907306_1084972980338117_1328694823179792807_n',
+                '484908158_1084998993668849_8367824791391306067_n',
+                '484908304_1084972933671455_59505144393981078_n',
+                '484908314_1084976240337791_1133963527235083136_n',
+                '484908317_1084972807004801_1130513809434137030_n',
+                '484914559_1084998933668855_4844657195610672813_n',
+                '484914590_1084972977004784_4213655990873171679_n',
+                '484916177_1084973280338087_2962752478763636749_n',
+                '484916378_1084973197004762_5010564182278897770_n',
+                '484916785_1084972823671466_8691459818403141323_n',
+                '484916994_1084973217004760_3636805365945329211_n',
+                '484917062_1084999110335504_3412827948495029927_n',
+                '484917091_1084972953671453_7289491998304322938_n',
+                '484917473_1084973173671431_1557174891867058543_n',
+                '484917674_1084972833671465_2130898831884148421_n',
+                '484917677_1084999293668819_8715326297358230940_n',
+                '484917944_1084998977002184_3181363163944669307_n',
+                '484918826_1084973227004759_6048061235278052721_n',
+                '485020639_1084973200338095_3466305868152579915_n',
+                '485085191_1084972890338126_4142012412734821426_n',
+                '485112836_1084972927004789_5279451686683754364_n',
+                '485164005_1084972843671464_614721187460358131_n',
+                '485180412_1084972973671451_316119342377416496_n',
+                '485302967_1084972863671462_2444070722272426316_n',
+                '485375797_1084973220338093_1174289347143353156_n',
+                '485383607_1087577646744317_3000731395207560223_n',
+                '485409214_1084972897004792_612039545791408034_n',
+                '485618741_1084999297002152_3830350669277805686_n',
+                '485625728_1084972923671456_3158853056920879156_n',
+                '485966523_1091172749718140_4125637720117818461_n',
+                '485970900_1089329506569131_7640410034892639271_n',
+                '486110521_1089337889901626_1755838759550940551_n',
+                '486154187_1089337963234952_6148753871126622313_n',
+                '486168457_1089338163234932_6882558233616819414_n',
+                '486188394_1091701486331933_3897501362973304336_n',
+                '486238436_1089338079901607_2160905100179489731_n',
+                '486248034_1089329806569101_214141592727033740_n',
+                '486254642_1091701702998578_6145841831298730402_n',
+                '486282979_1091701636331918_8760882231321151710_n',
+                '486318814_1091701762998572_543040568225060029_n',
+                '486323805_1089329563235792_3772721346277047926_n',
+                '486324141_1089329489902466_4379661616198925124_n',
+                '486373914_1091172819718133_7693806321559315432_n',
+                '486375959_1089337959901619_2442454464743342185_n',
+                '486378493_1091172726384809_2890071276807474111_n',
+                '486381294_1089475099887905_484891977345872765_n',
+                '486402289_1089329496569132_1675533199905325302_n',
+                '486410841_1091172713051477_7953437159996525542_n',
+                '486441280_1091701806331901_1511724759429615460_n',
+                '486464691_1091701496331932_1312313312303923741_n',
+                '486464819_1089329619902453_2471369850884610104_n',
+                '486476195_1089337916568290_3721963967145425111_n',
+                '486479203_1089329533235795_5589879180697043904_n',
+                '486494585_1091172729718142_2828049779928989242_n',
+                '486497999_1091172733051475_6082347158513436571_n',
+                '486505976_1091701826331899_5961327295881825723_n',
+                '486513875_1089475133221235_1783131819748142767_n',
+                '486521807_1091172753051473_4942727997432343919_n',
+                '486535324_1091701802998568_9088244680331812216_n',
+                '486564916_1091701676331914_1359429259017972957_n',
+                '486576150_1089329523235796_1231831746053695407_n',
+                '486595141_1089337839901631_2873141259096361839_n',
+                '486602073_1091701549665260_4026510521031607658_n',
+                '486602120_1089474956554586_7447175255380186229_n',
+                '486604501_1089329539902461_518645955089639490_n',
+                '486607756_1091172743051474_1778855770384311645_n',
+                '486609258_1091701809665234_4294305922684828603_n',
+                '486616328_1091172719718143_2242144629640374063_n',
+                '486622353_1091701689665246_1720950276190897016_n',
+                '486622353_1091701902998558_8038862037494816742_n',
+                '486623657_1091701716331910_981081085191801111_n',
+                '486641922_1091701776331904_4923227988289289683_n',
+                '486651234_1091701782998570_6978593968869528052_n',
+                '486666255_1091701699665245_5885925688953169284_n',
+                '486743801_1091701516331930_7081047627750257669_n',
+                '486766972_1091701642998584_7801753486937026940_n',
+                '486822661_1091172716384810_972112156434060662_n',
+                '486943901_1091701829665232_9046655089830422564_n',
+                '486950559_1091701772998571_7107926137892012621_n',
+                '487081499_1091701522998596_310102118840797120_n',
+                '487113134_1091701709665244_3619985279581994010_n',
+                '487180139_1091701862998562_4608486556401715147_n',
+                '487215247_1091701546331927_7737455764944308686_n',
+                '487240231_1091701719665243_7755006574099914840_n',
+                '487300896_1091168599718555_1443328659385447660_n',
+                '487302359_1091701812998567_5402513756427649142_n',
+                'IMG_2128_cropped'
+            ];
+            
+            // Generate gallery data from image names
+            const galleryData = imageNames.map((imageName, index) => {
+                // Extract base name for title generation
+                const baseName = imageName.split('/').pop();
+                
+                // Generate category based on filename patterns
+                let category = 'drilling';
+                let title = 'Well Service Project';
+                let description = 'Professional well service work in Central Oklahoma';
+                
+                if (baseName.includes('pump') || baseName.includes('installation')) {
+                    category = 'pump';
+                    title = 'Pump Installation';
+                    description = 'Professional pump installation and setup';
+                } else if (baseName.includes('maintenance') || baseName.includes('repair')) {
+                    category = 'maintenance'; 
+                    title = 'Well Maintenance';
+                    description = 'Regular maintenance and system checks';
+                } else if (baseName.includes('emergency')) {
+                    category = 'emergency';
+                    title = 'Emergency Service';
+                    description = 'Fast response emergency well service';
+                } else if (baseName.includes('drill')) {
+                    category = 'drilling';
+                    title = 'Well Drilling';
+                    description = 'Complete well drilling project';
+                }
+                
+                return {
+                    url: `https://res.cloudinary.com/${cloudName}/image/upload/c_fill,w_400,h_280,q_auto,f_auto/${imageName}`,
+                    title: `${title} #${index + 1}`,
+                    description: description,
+                    category: category,
+                    publicId: imageName
+                };
+            });
+            
+            return galleryData;
+            
+        } catch (error) {
+            console.error('Error fetching images:', error);
+            // Fallback to placeholder images
+            return [
+                {
+                    url: `https://res.cloudinary.com/${cloudName}/image/upload/c_fill,w_400,h_280,q_auto/sample`,
+                    title: "Sample Project",
+                    description: "Professional well service work",
+                    category: "drilling"
+                }
+            ];
+        }
+    }
+
+    async function loadGallery() {
+        const container = document.getElementById('gallery-container');
+        const loading = document.getElementById('loading');
+        
+        try {
+            // Fetch images dynamically
+            const galleryData = await fetchCloudinaryImages();
+            
+            // Hide loading and show gallery
+            loading.style.display = 'none';
+            container.style.display = 'grid';
+            
+            galleryData.forEach(item => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = `gallery-item ${item.category}`;
+                galleryItem.innerHTML = `
+                    <img src="${item.url}" alt="${item.title}" loading="lazy" 
+                         onerror="this.src='https://via.placeholder.com/400x280/1e40af/ffffff?text=Image+Not+Found'">
+                    <div class="gallery-overlay">
+                        <div class="gallery-content">
+                            <h3>${item.title}</h3>
+                            <p>${item.description}</p>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(galleryItem);
+            });
+            
+        } catch (error) {
+            console.error('Error loading gallery:', error);
+            loading.innerHTML = '<p>Error loading gallery. Please try again later.</p>';
+        }
+    }
+
+    // Filter functionality
+    function setupFilters() {
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                const filter = btn.dataset.filter;
+                
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.classList.contains(filter)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    }
+
+    // Load gallery when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            loadGallery();
+            setupFilters();
+        }, 1000); // Simulate loading delay
+    });
+
+    // Phone protection function
+    function showPhone(element) {
+        let phoneSpan = element.querySelector('.phone-number');
+        let hiddenSpan = element.querySelector('.phone-hidden');
+        
+        if (!phoneSpan) {
+            phoneSpan = element.parentElement.querySelector('.phone-number');
+            hiddenSpan = element;
+        }
+        
+        if (phoneSpan && hiddenSpan) {
+            phoneSpan.classList.add('show');
+            hiddenSpan.style.display = 'none';
+        }
+    }
+    </script>
+</body>
+</html>
