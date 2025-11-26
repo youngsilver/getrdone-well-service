@@ -23,6 +23,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,700;0,800;1,300&family=Open+Sans:wght@400&family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- MapKit JS -->
+    <script src="https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js"></script>
+    
     <style>
     /* Service Area Page Styles */
     .service-area-page {
@@ -285,10 +289,10 @@
                 <h3>🚛 Travel & Service Calls</h3>
                 <p>We bring our services directly to your location. Travel charges may apply for distances over 25 miles from Chandler, OK. Emergency services available throughout our coverage area.</p>
                 <p><strong>Call us to confirm service availability in your area:</strong></p>
-                <span class="btn" onclick="showPhone(this)" style="background: var(--white); color: var(--primary-color); border: 2px solid var(--primary-color); cursor: pointer; display: inline-block; padding: 1rem 2rem; border-radius: 8px; font-weight: 600; transition: all 0.3s;">
-                    <span class="phone-hidden">Click for Phone</span>
-                    <span class="phone-number">(405) 985-7399</span>
-                </span>
+                <button class="btn" onclick="showPhone(this)" style="background: var(--white); color: #2563eb !important; border: 2px solid #2563eb; cursor: pointer; display: inline-block; padding: 1rem 2rem; border-radius: 8px; font-weight: 600; transition: all 0.3s; font-size: 1rem; font-family: 'Montserrat', sans-serif;">
+                    <span class="phone-hidden" style="color: #2563eb !important; font-weight: 600;">Click for Phone</span>
+                    <span class="phone-number" style="color: #2563eb !important; font-weight: 600;">(405) 985-7399</span>
+                </button>
             </div>
         </div>
     </section>
@@ -324,10 +328,101 @@
 
     <script src="script.js"></script>
     <script>
+    let map;
 
+    // Initialize MapKit
+    function initMapKit() {
+        mapkit.init({
+            authorizationCallback: function(done) {
+                // For development/demo purposes - in production you'd need a proper JWT token
+                // This will show a basic map but may have limitations
+                done('demo');
+            }
+        });
+        
+        createServiceMap();
+    }
 
-    // Create service area map
+    // Create service area map with MapKit
     function createServiceMap() {
+        console.log('Creating MapKit service map...');
+        const mapDiv = document.getElementById('service-map');
+        
+        if (!mapDiv) {
+            console.error('Map container not found');
+            return;
+        }
+
+        try {
+            // Chandler, Oklahoma coordinates
+            const chandlerCoordinates = new mapkit.Coordinate(35.7017, -96.8814);
+            
+            // Create the map
+            map = new mapkit.Map(mapDiv, {
+                center: chandlerCoordinates,
+                span: new mapkit.CoordinateSpan(1.0, 1.0), // Adjust zoom level
+                mapType: mapkit.Map.MapTypes.Standard,
+                showsMapTypeControl: false,
+                showsZoomControl: true,
+                showsUserLocationControl: false,
+                showsCompass: mapkit.FeatureVisibility.Visible
+            });
+
+            // Add marker for Chandler
+            const chandlerAnnotation = new mapkit.MarkerAnnotation(chandlerCoordinates, {
+                title: "GET'R'DONE Well Service",
+                subtitle: "Chandler, Oklahoma - Service Headquarters",
+                color: "#2563eb",
+                glyphText: "🏢"
+            });
+            
+            map.addAnnotation(chandlerAnnotation);
+
+            // Create service area circles
+            createServiceAreaCircles(chandlerCoordinates);
+            
+            console.log('MapKit service map created successfully');
+            
+        } catch (error) {
+            console.error('Error creating MapKit map:', error);
+            // Fallback to custom visualization
+            createFallbackMap();
+        }
+    }
+
+    // Create service area circles
+    function createServiceAreaCircles(center) {
+        // 25-mile radius (primary service area)
+        const primaryCircle = new mapkit.CircleOverlay(center, {
+            radius: 40233.6, // 25 miles in meters
+        });
+        primaryCircle.style = new mapkit.Style({
+            fillColor: "#2563eb",
+            fillOpacity: 0.15,
+            strokeColor: "#2563eb",
+            strokeOpacity: 0.8,
+            lineWidth: 2
+        });
+
+        // 50-mile radius (extended service area)
+        const extendedCircle = new mapkit.CircleOverlay(center, {
+            radius: 80467.2, // 50 miles in meters
+        });
+        extendedCircle.style = new mapkit.Style({
+            fillColor: "#3b82f6",
+            fillOpacity: 0.1,
+            strokeColor: "#3b82f6",
+            strokeOpacity: 0.6,
+            lineWidth: 2,
+            lineDash: [5, 5]
+        });
+
+        map.addOverlay(extendedCircle);
+        map.addOverlay(primaryCircle);
+    }
+
+    // Fallback map if MapKit fails
+    function createFallbackMap() {
         const mapDiv = document.getElementById('service-map');
         mapDiv.innerHTML = `
             <div style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); 
@@ -339,24 +434,28 @@
                        border-radius: 10px;
                        position: relative;
                        overflow: hidden;">
-                <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
+                <div class="map-animation" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
                            background-image: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.1) 0%, transparent 50%),
                                            radial-gradient(circle at 70% 60%, rgba(255,255,255,0.1) 0%, transparent 50%);
                            animation: mapPulse 4s ease-in-out infinite;">
                 </div>
-                <div style="z-index: 1; text-align: center;">
-                    <h3 style="margin-bottom: 15px; font-size: 24px;">📍 Chandler, Oklahoma</h3>
-                    <div style="margin: 20px 0; padding: 15px; background: rgba(255,255,255,0.2); border-radius: 8px; backdrop-filter: blur(4px);">
-                        <p style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600;">🔵 Primary Area: 25-mile radius</p>
-                        <p style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600;">🟦 Extended Area: 50-mile radius</p>
-                        <p style="margin: 0; font-size: 14px; opacity: 0.9;">Professional well services throughout Central Oklahoma</p>
+                <div style="z-index: 1; text-align: center; padding: 2rem;">
+                    <h3 style="margin-bottom: 20px; font-size: 28px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">📍 Chandler, Oklahoma</h3>
+                    <div style="margin: 30px 0; padding: 20px; background: rgba(255,255,255,0.2); border-radius: 12px; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.3);">
+                        <p style="margin: 0 0 12px 0; font-size: 18px; font-weight: 600;">🔵 Primary Area: 25-mile radius</p>
+                        <p style="margin: 0 0 12px 0; font-size: 18px; font-weight: 600;">🟦 Extended Area: 50-mile radius</p>
+                        <p style="margin: 0; font-size: 16px; opacity: 0.95; line-height: 1.4;">Professional well services throughout Central Oklahoma</p>
                     </div>
+                    <p style="font-size: 14px; opacity: 0.8; margin-top: 1rem;">Interactive map requires MapKit authorization</p>
                 </div>
             </div>
             <style>
                 @keyframes mapPulse {
                     0%, 100% { opacity: 0.3; }
                     50% { opacity: 0.6; }
+                }
+                .map-animation {
+                    animation: mapPulse 4s ease-in-out infinite;
                 }
             </style>
         `;
@@ -380,7 +479,16 @@
 
     // Initialize when page loads
     document.addEventListener('DOMContentLoaded', () => {
-        createServiceMap();
+        console.log('DOM loaded, initializing MapKit...');
+        // Check if MapKit is available
+        if (typeof mapkit !== 'undefined') {
+            initMapKit();
+        } else {
+            console.log('MapKit not available, loading fallback map...');
+            setTimeout(() => {
+                createFallbackMap();
+            }, 100);
+        }
     });
     </script>
     
