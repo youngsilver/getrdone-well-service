@@ -24,8 +24,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,700;0,800;1,300&family=Open+Sans:wght@400&family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     
-    <!-- MapKit JS -->
-    <script src="https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js"></script>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     
     <style>
     /* Service Area Page Styles */
@@ -327,25 +327,16 @@
     </footer>
 
     <script src="script.js"></script>
+    
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
     <script>
     let map;
 
-    // Initialize MapKit
-    function initMapKit() {
-        mapkit.init({
-            authorizationCallback: function(done) {
-                // For development/demo purposes - in production you'd need a proper JWT token
-                // This will show a basic map but may have limitations
-                done('demo');
-            }
-        });
-        
-        createServiceMap();
-    }
-
-    // Create service area map with MapKit
-    function createServiceMap() {
-        console.log('Creating MapKit service map...');
+    // Initialize Leaflet Map with OpenStreetMap
+    function initMap() {
+        console.log('Initializing Leaflet Map with OpenStreetMap...');
         const mapDiv = document.getElementById('service-map');
         
         if (!mapDiv) {
@@ -355,73 +346,142 @@
 
         try {
             // Chandler, Oklahoma coordinates
-            const chandlerCoordinates = new mapkit.Coordinate(35.7017, -96.8814);
+            const chandlerLocation = [35.7017, -96.8814];
             
             // Create the map
-            map = new mapkit.Map(mapDiv, {
-                center: chandlerCoordinates,
-                span: new mapkit.CoordinateSpan(1.0, 1.0), // Adjust zoom level
-                mapType: mapkit.Map.MapTypes.Standard,
-                showsMapTypeControl: false,
-                showsZoomControl: true,
-                showsUserLocationControl: false,
-                showsCompass: mapkit.FeatureVisibility.Visible
+            map = L.map('service-map').setView(chandlerLocation, 9);
+            
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 19
+            }).addTo(map);
+
+            // Custom marker icon
+            const customIcon = L.divIcon({
+                html: `
+                    <div style="
+                        background: #2563eb;
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 50% 50% 50% 0;
+                        transform: rotate(-45deg);
+                        border: 3px solid #1e40af;
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    ">
+                        <div style="
+                            color: white;
+                            font-size: 16px;
+                            transform: rotate(45deg);
+                            font-weight: bold;
+                        ">🏢</div>
+                    </div>
+                `,
+                className: 'custom-marker',
+                iconSize: [30, 30],
+                iconAnchor: [15, 30]
             });
 
             // Add marker for Chandler
-            const chandlerAnnotation = new mapkit.MarkerAnnotation(chandlerCoordinates, {
-                title: "GET'R'DONE Well Service",
-                subtitle: "Chandler, Oklahoma - Service Headquarters",
-                color: "#2563eb",
-                glyphText: "🏢"
-            });
-            
-            map.addAnnotation(chandlerAnnotation);
+            const marker = L.marker(chandlerLocation, { icon: customIcon })
+                .addTo(map)
+                .bindPopup(`
+                    <div style="padding: 10px; text-align: center; min-width: 200px;">
+                        <h4 style="margin: 0 0 8px 0; color: #2563eb; font-size: 16px;">GET'R'DONE Well Service</h4>
+                        <p style="margin: 0; color: #666; font-size: 14px;">📍 Chandler, Oklahoma<br>Service Headquarters</p>
+                        <div style="margin-top: 8px; padding: 5px; background: #f0f9ff; border-radius: 4px; font-size: 12px; color: #1e40af;">
+                            Professional well services throughout Central Oklahoma
+                        </div>
+                    </div>
+                `);
 
             // Create service area circles
-            createServiceAreaCircles(chandlerCoordinates);
+            createServiceAreaCircles(chandlerLocation);
             
-            console.log('MapKit service map created successfully');
+            // Show marker popup initially
+            marker.openPopup();
+            
+            console.log('Leaflet service map created successfully');
             
         } catch (error) {
-            console.error('Error creating MapKit map:', error);
-            // Fallback to custom visualization
+            console.error('Error creating Leaflet map:', error);
             createFallbackMap();
         }
     }
 
-    // Create service area circles
+    // Create service area circles with Leaflet
     function createServiceAreaCircles(center) {
-        // 25-mile radius (primary service area)
-        const primaryCircle = new mapkit.CircleOverlay(center, {
-            radius: 40233.6, // 25 miles in meters
-        });
-        primaryCircle.style = new mapkit.Style({
-            fillColor: "#2563eb",
-            fillOpacity: 0.15,
-            strokeColor: "#2563eb",
-            strokeOpacity: 0.8,
-            lineWidth: 2
-        });
-
-        // 50-mile radius (extended service area)
-        const extendedCircle = new mapkit.CircleOverlay(center, {
-            radius: 80467.2, // 50 miles in meters
-        });
-        extendedCircle.style = new mapkit.Style({
-            fillColor: "#3b82f6",
+        // 50-mile radius (extended service area) - add first so it appears behind primary
+        const extendedCircle = L.circle(center, {
+            color: '#3b82f6',
+            weight: 2,
+            opacity: 0.7,
+            fillColor: '#3b82f6',
             fillOpacity: 0.1,
-            strokeColor: "#3b82f6",
-            strokeOpacity: 0.6,
-            lineWidth: 2,
-            lineDash: [5, 5]
-        });
+            radius: 80467, // 50 miles in meters
+            dashArray: '10, 5'
+        }).addTo(map);
 
-        map.addOverlay(extendedCircle);
-        map.addOverlay(primaryCircle);
+        // 25-mile radius (primary service area)
+        const primaryCircle = L.circle(center, {
+            color: '#2563eb',
+            weight: 3,
+            opacity: 0.8,
+            fillColor: '#2563eb',
+            fillOpacity: 0.15,
+            radius: 40234 // 25 miles in meters
+        }).addTo(map);
+
+        // Add popups to circles
+        primaryCircle.bindPopup(`
+            <div style="text-align: center; padding: 8px;">
+                <h4 style="margin: 0 0 5px 0; color: #2563eb;">🔵 Primary Service Area</h4>
+                <p style="margin: 0; font-size: 14px;">25-mile radius from Chandler</p>
+                <div style="font-size: 12px; color: #666; margin-top: 5px;">Standard rates • Fast response</div>
+            </div>
+        `);
+
+        extendedCircle.bindPopup(`
+            <div style="text-align: center; padding: 8px;">
+                <h4 style="margin: 0 0 5px 0; color: #3b82f6;">🟦 Extended Service Area</h4>
+                <p style="margin: 0; font-size: 14px;">50-mile radius from Chandler</p>
+                <div style="font-size: 12px; color: #666; margin-top: 5px;">Travel charges may apply</div>
+            </div>
+        `);
+
+        // Create a legend
+        const legend = L.control({position: 'bottomright'});
+        legend.onAdd = function() {
+            const div = L.DomUtil.create('div', 'legend');
+            div.innerHTML = `
+                <div style="
+                    background: white;
+                    padding: 10px;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                    font-size: 12px;
+                    line-height: 1.4;
+                ">
+                    <div style="font-weight: bold; margin-bottom: 5px; color: #333;">Service Areas</div>
+                    <div style="display: flex; align-items: center; margin-bottom: 3px;">
+                        <div style="width: 12px; height: 12px; background: #2563eb; border-radius: 50%; margin-right: 5px; opacity: 0.8;"></div>
+                        <span>Primary (25 mi)</span>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <div style="width: 12px; height: 12px; background: #3b82f6; border-radius: 50%; margin-right: 5px; opacity: 0.5;"></div>
+                        <span>Extended (50 mi)</span>
+                    </div>
+                </div>
+            `;
+            return div;
+        };
+        legend.addTo(map);
     }
 
-    // Fallback map if MapKit fails
+    // Fallback map if Google Maps fails
     function createFallbackMap() {
         const mapDiv = document.getElementById('service-map');
         mapDiv.innerHTML = `
@@ -446,7 +506,7 @@
                         <p style="margin: 0 0 12px 0; font-size: 18px; font-weight: 600;">🟦 Extended Area: 50-mile radius</p>
                         <p style="margin: 0; font-size: 16px; opacity: 0.95; line-height: 1.4;">Professional well services throughout Central Oklahoma</p>
                     </div>
-                    <p style="font-size: 14px; opacity: 0.8; margin-top: 1rem;">Interactive map requires MapKit authorization</p>
+                    <p style="font-size: 14px; opacity: 0.8; margin-top: 1rem;">Interactive map requires Google Maps API key</p>
                 </div>
             </div>
             <style>
@@ -479,12 +539,15 @@
 
     // Initialize when page loads
     document.addEventListener('DOMContentLoaded', () => {
-        console.log('DOM loaded, initializing MapKit...');
-        // Check if MapKit is available
-        if (typeof mapkit !== 'undefined') {
-            initMapKit();
+        console.log('DOM loaded, initializing Leaflet map...');
+        // Check if Leaflet is available
+        if (typeof L !== 'undefined') {
+            // Small delay to ensure DOM is fully ready
+            setTimeout(() => {
+                initMap();
+            }, 100);
         } else {
-            console.log('MapKit not available, loading fallback map...');
+            console.log('Leaflet not available, loading fallback map...');
             setTimeout(() => {
                 createFallbackMap();
             }, 100);
