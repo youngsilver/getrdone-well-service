@@ -145,29 +145,27 @@
             const isMobile = window.innerWidth <= 767;
             
             if (isMobile) {
-                // Mobile: Size to fit exactly 2 lines
-                const minSize = 1.0;
-                const maxSize = 2.5;
+                // Mobile: Start small and fit to container width
+                const minSize = 0.9;
+                const maxSize = 1.8;
                 const step = 0.05;
                 
-                let fontSize = maxSize;
+                let fontSize = minSize;
                 heroTitle.style.fontSize = fontSize + 'rem';
                 
-                // Calculate line height in pixels
-                const computedStyle = window.getComputedStyle(heroTitle);
-                const lineHeight = parseFloat(computedStyle.lineHeight);
-                const targetHeight = lineHeight * 2; // Exactly 2 lines
-                
-                // Adjust font size to fit exactly 2 lines
-                while (heroTitle.scrollHeight > targetHeight && fontSize > minSize) {
-                    fontSize -= step;
-                    heroTitle.style.fontSize = fontSize + 'rem';
+                // Increase font size until it's too wide or too tall
+                while (fontSize < maxSize) {
+                    const nextSize = fontSize + step;
+                    heroTitle.style.fontSize = nextSize + 'rem';
                     
-                    // Recalculate line height after font size change
-                    const newLineHeight = parseFloat(window.getComputedStyle(heroTitle).lineHeight);
-                    const newTargetHeight = newLineHeight * 2;
-                    
-                    if (heroTitle.scrollHeight <= newTargetHeight) break;
+                    // Check if text overflows container width or exceeds reasonable height
+                    if (heroTitle.scrollWidth > heroTitle.clientWidth || 
+                        heroTitle.scrollHeight > heroTitle.clientHeight * 0.8) {
+                        // Revert to previous size that worked
+                        heroTitle.style.fontSize = fontSize + 'rem';
+                        break;
+                    }
+                    fontSize = nextSize;
                 }
             } else {
                 // Desktop: Original logic
@@ -185,23 +183,7 @@
             }
         }
         
-        // Fit scripture verse
-        const scripture = document.querySelector('.scripture p');
-        if (scripture) {
-            const minSize = 0.6; // rem
-            const maxSize = 2; // rem
-            const step = 0.05; // rem
-            
-            // Start with maximum size
-            let fontSize = maxSize;
-            scripture.style.fontSize = fontSize + 'rem';
-            
-            // Reduce font size until text fits
-            while ((scripture.scrollWidth > scripture.clientWidth || scripture.scrollHeight > scripture.clientHeight) && fontSize > minSize) {
-                fontSize -= step;
-                scripture.style.fontSize = fontSize + 'rem';
-            }
-        }
+        // Scripture verse now uses CSS for sizing - no dynamic adjustment needed
     }
     
     // Run on page load and window resize
