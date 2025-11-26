@@ -387,22 +387,10 @@
 
             // Add marker for Chandler
             const marker = L.marker(chandlerLocation, { icon: customIcon })
-                .addTo(map)
-                .bindPopup(`
-                    <div style="padding: 10px; text-align: center; min-width: 200px;">
-                        <h4 style="margin: 0 0 8px 0; color: #2563eb; font-size: 16px;">GET'R'DONE Well Service</h4>
-                        <p style="margin: 0; color: #666; font-size: 14px;">📍 Chandler, Oklahoma<br>Service Headquarters</p>
-                        <div style="margin-top: 8px; padding: 5px; background: #f0f9ff; border-radius: 4px; font-size: 12px; color: #1e40af;">
-                            Professional well services throughout Central Oklahoma
-                        </div>
-                    </div>
-                `);
+                .addTo(map);
 
             // Create service area circles
             createServiceAreaCircles(chandlerLocation);
-            
-            // Show marker popup initially
-            marker.openPopup();
             
             console.log('Leaflet service map created successfully');
             
