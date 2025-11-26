@@ -107,36 +107,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,700;0,800;1,300&family=Open+Sans:wght@400&family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <style>
-    /* Phone Display Toggle */
-    .phone-hidden {
-        cursor: pointer;
-        color: #1976d2;
-        text-decoration: underline;
-    }
-    .phone-number {
-        display: none;
-    }
-    .phone-number.show {
-        display: inline;
-    }
-    .email-protected {
-        font-size: 0;
-        display: inline;
-    }
-    .email-protected::before {
-        content: "getrdonewellservice@gmail.com";
-        font-size: 1rem;
-    }
-    .btn .phone-protected::before,
-    .btn .phone-protected::after,
-    .btn .email-protected::before,
-    a .phone-protected::before,
-    a .phone-protected::after,
-    a .email-protected::before {
-        font-size: inherit;
-    }
-    /* Remove all hyperlink styling throughout the site */\n    .btn span {\n        text-decoration: none !important;\n        color: inherit !important;\n    }\n    .phone-hidden {\n        text-decoration: none !important;\n        color: inherit !important;\n        cursor: pointer;\n    }\n    .phone-hidden:hover {\n        text-decoration: none !important;\n        opacity: 0.8;\n    }\n    /* Remove blue link colors from all clickable elements */\n    span[onclick] {\n        text-decoration: none !important;\n        color: inherit !important;\n        cursor: pointer;\n    }\n    span[onclick]:hover {\n        text-decoration: none !important;\n        opacity: 0.8;\n    }\n    </style>
     <script>
     function showPhone(element) {
         // Try to find phone number as child element first (for buttons)
@@ -169,11 +139,13 @@
     }
     
     function fitTextToContainer() {
+        const isMobileDevice = window.innerWidth <= 768;
+        
         // Fit hero title
         const heroTitle = document.querySelector('.hero-title');
         if (heroTitle) {
-            const minSize = 0.8; // rem
-            const maxSize = 4; // rem
+            const minSize = isMobileDevice ? 1.0 : 0.8; // rem
+            const maxSize = isMobileDevice ? 1.8 : 4; // rem - much smaller on mobile
             const step = 0.1; // rem
             
             // Start with maximum size
@@ -190,8 +162,8 @@
         // Fit scripture verse
         const scripture = document.querySelector('.scripture p');
         if (scripture) {
-            const minSize = 0.6; // rem
-            const maxSize = 2; // rem
+            const minSize = isMobileDevice ? 0.7 : 0.6; // rem
+            const maxSize = isMobileDevice ? 1.0 : 2; // rem - much smaller on mobile
             const step = 0.05; // rem
             
             // Start with maximum size
@@ -220,6 +192,7 @@
             </a>
             <ul class="nav-menu">
                 <li><a href="#services">Services</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
                 <li><a href="#testimonials">Testimonials</a></li>
                 <li><a href="#mission">Mission</a></li>
                 <li><a href="#contact">Contact</a></li>
@@ -246,7 +219,6 @@
                 <p>"Whoever believes in me, rivers of living water will flow from within."<br>— John 7:38</p>
             </div>
             <div class="hero-cta">
-                <a href="#contact" class="btn btn-primary">Schedule Service Today</a>
                 <span class="btn btn-primary" onclick="handleCallAction()">Call Now</span>
             </div>
         </div>
@@ -450,6 +422,7 @@
                     <h4>Quick Links</h4>
                     <ul>
                         <li><a href="#services">Services</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
                         <li><a href="#testimonials">Testimonials</a></li>
                         <li><a href="#mission">Mission</a></li>
                         <li><a href="#contact">Contact</a></li>

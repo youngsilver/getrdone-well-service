@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>Photo Gallery | GET'R'DONE Well Service | Oklahoma Well Drilling Projects</title>
+    <meta name="description" content="View our completed water well drilling, pump installation, and repair projects throughout Central Oklahoma. Professional well service gallery showcasing quality workmanship.">
+    <meta name="keywords" content="well drilling photos, Oklahoma well projects, pump installation gallery, water well examples, GET'R'DONE portfolio">
+    <meta name="author" content="GET'R'DONE Well Service">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://getrdonewell.com/gallery.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://getrdonewell.com/gallery.html">
+    <meta property="og:title" content="Project Gallery | GET'R'DONE Well Service">
+    <meta property="og:description" content="Browse our completed well drilling and pump installation projects in Central Oklahoma.">
+    <meta property="og:image" content="https://getrdonewell.com/assets/logo.svg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,700;0,800;1,300&family=Open+Sans:wght@400&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+    /* Gallery-specific styles */
+    .gallery-page {
+        min-height: 100vh;
+        background: var(--light-color);
+    }
+    
+    .gallery-hero {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: var(--white);
+        padding: 8rem 0 4rem;
+        text-align: center;
+    }
+    
+    .gallery-hero h1 {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .gallery-hero p {
+        font-size: 1.25rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .gallery-main {
+        padding: 4rem 0;
+    }
+    
+    .gallery-filters {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .filter-btn {
+        background: transparent;
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+        padding: 0.75rem 1.5rem;
+        margin: 0.25rem;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-weight: 600;
+    }
+    
+    .filter-btn:hover,
+    .filter-btn.active {
+        background: var(--primary-color);
+        color: var(--white);
+    }
+    
+    .gallery-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+    
+    .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+        transition: all 0.3s ease;
+        background: var(--white);
+        cursor: pointer;
+    }
+    
+    .gallery-item:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .gallery-item img {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    
+    .gallery-item:hover img {
+        transform: scale(1.1);
+    }
+    
+    .gallery-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(30, 64, 175, 0.95) 0%, rgba(59, 130, 246, 0.9) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .gallery-item:hover .gallery-overlay {
+        opacity: 1;
+    }
+    
+    .gallery-content {
+        text-align: center;
+        color: var(--white);
+        padding: 2rem;
+    }
+    
+    .gallery-content h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+    }
+    
+    .gallery-content p {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+    
+    .loading {
+        text-align: center;
+        padding: 4rem 0;
+        color: var(--text-color);
+    }
+    
+    .back-link {
+        display: inline-block;
+        margin: 2rem 0;
+        padding: 1rem 2rem;
+        background: var(--primary-color);
+        color: var(--white);
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+        background: var(--secondary-color);
+        transform: translateY(-2px);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .gallery-hero {
+            display: none;
+        }
+        
+        .gallery-hero h1 {
+            font-size: 2.5rem;
+        }
+        
+        .gallery-container {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .gallery-item img {
+            height: 220px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .gallery-container {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+    }
+    </style>
+</head>
+<body class="gallery-page">
+    <!-- Header/Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a class="logo" href="./">
+                <img src="assets/logo.png" alt="GET'R'DONE Well Service logo">
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="gallery.html" class="active">Gallery</a></li>
+                <li><a href="index.html#testimonials">Testimonials</a></li>
+                <li><a href="index.html#mission">Mission</a></li>
+                <li><a href="service-area.html">Service Area</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Gallery Hero -->
+    <section class="gallery-hero">
+        <div class="container">
+            <h1>Our Work Gallery</h1>
+            <p>Browse through our completed well drilling, pump installation, and repair projects throughout Central Oklahoma. Each project represents our commitment to quality and Christian excellence.</p>
+            <a href="index.html" class="back-link">← Back to Home</a>
+        </div>
+    </section>
+
+    <!-- Gallery Main -->
+    <section class="gallery-main">
+        <div class="container">
+            <!-- Loading Message -->
+            <div id="loading" class="loading">
+                <p>Loading gallery images...</p>
+            </div>
+
+            <!-- Gallery Container -->
+            <div id="gallery-container" class="gallery-container" style="display: none;">
+                <!-- Images will be loaded here dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>GET'R'DONE Well Service</h4>
+                    <p>Professional water well services in Central Oklahoma</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html#services">Services</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="index.html#testimonials">Testimonials</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Phone: <span onclick="showPhone(this)" class="phone-hidden">Click to show</span><span class="phone-number"><a href="tel:+14059857399">(405) 985-7399</a></span></p>
+                    <p>Email: <span onclick="showPhone(this)" class="phone-hidden">Click to show email</span><span class="phone-number"><a href="mailto:getrdonewellservice@gmail.com">getrdonewellservice@gmail.com</a></span></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GET'R'DONE Well Service. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+    // Cloudinary gallery loader
+    const cloudName = 'dwpwv98sk';
+    
+    // Fetch images from Cloudinary folder
+    async function fetchCloudinaryImages() {
+        try {
+            // Use Cloudinary's search API (requires unsigned preset or API key)
+            // For now, we'll use a list of known image public IDs from your collection
+            
+            // Cloudinary public IDs with correct suffixes from your collection
+            const imageNames = [
+                '485164005_1084972843671464_614721187460358131_n_pama4r',
+                '484904956_1084972913671457_3981577531963898110_n_wsptyy',
+                '484917091_1084972953671453_7289491998304322938_n_b5c9ud',
+                '484917473_1084973173671431_1557174891867058543_n_ayms3r',
+                '485020639_1084973200338095_3466305868152579915_n_zirlt9',
+                '484916785_1084972823671466_8691459818403141323_n_kbdz4m',
+                '485409214_1084972897004792_612039545791408034_n_h5hgww',
+                '484907102_1084972830338132_6619165265527686886_n_g5o8ng',
+                '484907199_1084973143671434_6479724032663801197_n_jwwbdf',
+                '473063142_1032849108883838_3894831505314310226_n_xkhnkm',
+                '472948161_1033717588796990_893663751374908193_n_wgypkw',
+                '472724672_1032684498900299_9212516504331983408_n_xfybiv',
+                '472226098_1032674435567972_8438858675698068308_n_aahgbd',
+                '473571019_1018986646934426_8134257073711010795_n_sjihad',
+                '470201288_997617979071293_7768104636416904895_n_isnt1w',
+                '474977704_1027155889450835_7014012605917324404_n_g8lpsr',
+                '473426820_1018986833601074_4090780531367975679_n_hr3wqu',
+                '473241276_1018634316969659_5380682860935485796_n_h5aor5',
+                '473224437_1018634183636339_7939018358028330875_n_qspdv7',
+                '473714023_1018634636969627_3317148294882030136_n_w48uxx',
+                '472624874_1018631080303316_7846067407145351679_n_xbi2rj',
+                '472235492_1011625227670568_8640768459986676581_n_ucimt1',
+                '472188310_1011625221003902_5102486199651714977_n_i789ks',
+                '472309525_1010893121077112_6169840243690091828_n_nupqxj',
+                '472340734_1010893184410439_5054819657021745092_n_oeticz',
+                '472178531_1010891144410643_3264741307896810237_n_mnnsrr',
+                '472380481_1010891154410642_6423669285367935863_n_o0ilyq',
+                '472208568_1010884101078014_6685032735805050076_n_jeqvf4',
+                '472543096_1010884247744666_6547032827234846590_n_pz8q13',
+                '472209270_1010883197744771_4160283166212632786_n_rdetc3',
+                '472669786_1010882964411461_256248888475654227_n_i5v8cw',
+                '472189114_1010883171078107_7002065019757046676_n_fq4zky',
+                '471839947_1007215851444839_1278299766743571530_n_paeg5k',
+                '471918871_1007550101411414_1146433745154849355_n_ovh7x9',
+                '471694187_1007215861444838_2184901407531083320_n_urzauj',
+                '471544457_1007216038111487_8960102016050119071_n_cwqjmc',
+                '242661379_226737669492665_3597495006994756209_n_hb0nrg',
+                '471781132_1007213011445123_4631364888575338472_n_jpz223',
+                '471593295_1007216191444805_4225044847483997359_n_tjxuym',
+                '471917243_1007213031445121_6697316942652066732_n_zbuhlp',
+                '471288865_1002699598563131_2002181379617845173_n_ibcji5',
+                '471168576_1002699451896479_7078592184597548354_n_hptigt',
+                '471296290_1002699338563157_7475318522288528270_n_kdjefl',
+                '471174967_1002699438563147_3584038358048446518_n_dwynjp',
+                '470210189_997617725737985_8292926847462963245_n_ktdec2',
+                '471180102_1002674931898931_1313166321183534330_n_d4qbk5',
+                '470191182_997617695737988_8321013667616989099_n_uirux1',
+                '466904869_976009151232176_134032163682675931_n_p66jey'
+            ];
+            
+            // Generate gallery data from image names
+            const galleryData = imageNames.map((imageName, index) => {
+                // Extract base name for title generation
+                const baseName = imageName.split('/').pop();
+                
+                // Random job scene descriptions - no specific project numbers
+                const jobScenes = [
+                    { title: 'Well Drilling Scene', description: 'On-site drilling operations', category: 'drilling' },
+                    { title: 'Equipment Setup', description: 'Professional drilling equipment in action', category: 'drilling' },
+                    { title: 'Pump Work', description: 'Pump installation and maintenance', category: 'pump' },
+                    { title: 'Job Site', description: 'Well service work in progress', category: 'drilling' },
+                    { title: 'Service Call', description: 'Field service operations', category: 'maintenance' },
+                    { title: 'Drilling Operations', description: 'Water well drilling work', category: 'drilling' },
+                    { title: 'Equipment Maintenance', description: 'Maintaining drilling equipment', category: 'maintenance' },
+                    { title: 'Field Work', description: 'Professional well services', category: 'drilling' },
+                    { title: 'Pump Services', description: 'Pump repair and installation', category: 'pump' },
+                    { title: 'Well Site', description: 'Active well service location', category: 'drilling' }
+                ];
+                
+                // Randomly assign a job scene description
+                const scene = jobScenes[index % jobScenes.length];
+                
+                return {
+                    url: `https://res.cloudinary.com/${cloudName}/image/upload/c_fill,w_400,h_280,q_auto,f_auto/${imageName}`,
+                    title: scene.title,
+                    description: scene.description,
+                    category: scene.category,
+                    publicId: imageName
+                };
+            });
+            
+            return galleryData;
+            
+        } catch (error) {
+            console.error('Error fetching images:', error);
+            // Fallback to placeholder images
+            return [
+                {
+                    url: `https://res.cloudinary.com/${cloudName}/image/upload/c_fill,w_400,h_280,q_auto/sample`,
+                    title: "Sample Project",
+                    description: "Professional well service work",
+                    category: "drilling"
+                }
+            ];
+        }
+    }
+
+    async function loadGallery() {
+        const container = document.getElementById('gallery-container');
+        const loading = document.getElementById('loading');
+        
+        try {
+            // Fetch images dynamically
+            const galleryData = await fetchCloudinaryImages();
+            
+            // Hide loading and show gallery
+            loading.style.display = 'none';
+            container.style.display = 'grid';
+            
+            galleryData.forEach(item => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = `gallery-item ${item.category}`;
+                galleryItem.innerHTML = `
+                    <img src="${item.url}" alt="${item.title}" loading="lazy" 
+                         onerror="this.src='https://via.placeholder.com/400x280/1e40af/ffffff?text=Image+Not+Found'">
+                    <div class="gallery-overlay">
+                        <div class="gallery-content">
+                            <h3>${item.title}</h3>
+                            <p>${item.description}</p>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(galleryItem);
+            });
+            
+        } catch (error) {
+            console.error('Error loading gallery:', error);
+            loading.innerHTML = '<p>Error loading gallery. Please try again later.</p>';
+        }
+    }
+
+
+
+    // Load gallery when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            loadGallery();
+        }, 1000); // Simulate loading delay
+    });
+
+    // Phone protection function
+    function showPhone(element) {
+        let phoneSpan = element.querySelector('.phone-number');
+        let hiddenSpan = element.querySelector('.phone-hidden');
+        
+        if (!phoneSpan) {
+            phoneSpan = element.parentElement.querySelector('.phone-number');
+            hiddenSpan = element;
+        }
+        
+        if (phoneSpan && hiddenSpan) {
+            phoneSpan.classList.add('show');
+            hiddenSpan.style.display = 'none';
+        }
+    }
+    </script>
+</body>
+</html>
