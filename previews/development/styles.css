@@ -214,7 +214,7 @@ a:hover {
     width: 100%;
     height: calc(100vh - 60px);
     /* Use CSS variables so the tint is easy to tweak */
-    background: linear-gradient(135deg, var(--hero-overlay-start) 0%, var(--hero-overlay-end) 100%);
+    background: transparent;
     z-index: 0;
     pointer-events: none;
 }
@@ -257,14 +257,16 @@ a:hover {
     font-weight: 300;
     font-style: italic;
     color: var(--white);
-    font-size: 1.5rem; /* Starting size - will be dynamically adjusted */
+    font-size: 1.2rem;
     margin: 2rem auto;
-    line-height: 1.4;
+    line-height: 1.6;
     text-align: center;
-    max-width: 90vw;
-    white-space: nowrap;
-    overflow: hidden;
+    max-width: 800px;
+    padding: 0 1rem;
     box-sizing: border-box;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .scripture-ref {
@@ -663,22 +665,27 @@ a:hover {
 /* Mobile Menu Styles */
 @media (max-width: 767px) {
     .hero-title {
-        max-width: 95%;
-        padding: 0.8rem 1.2rem;
+        max-width: 92%;
+        padding: 0.6rem 1rem;
         white-space: normal;
-        line-height: 1.3;
+        line-height: 1.2;
         word-wrap: break-word;
         hyphens: auto;
+        box-sizing: border-box;
     }
     
     .scripture {
-        font-size: 0.85rem;
         max-width: 90%;
+        padding: 1rem;
+        font-size: 1rem;
+        line-height: 1.5;
     }
     
     .scripture p {
-        font-size: 0.85rem !important;
-        line-height: 1.4;
+        line-height: 1.5;
+        word-wrap: break-word;
+        hyphens: auto;
+        margin: 0;
     }
     
     .nav-menu.open {
@@ -702,6 +709,23 @@ a:hover {
         /* On mobile, use poster image more prominently as videos can be bandwidth-intensive */
         min-width: 100%;
         min-height: 100%;
+    }
+}
+
+/* Mobile Portrait Mode - Zoom out video */
+@media (max-width: 767px) and (orientation: portrait) {
+    .hero-video {
+        transform: scale(0.8);
+        transform-origin: center center;
+        width: 125%;
+        height: 125%;
+        left: -12.5%;
+        top: -12.5%;
+        position: absolute;
+    }
+    
+    .hero {
+        overflow: hidden;
     }
 }
 
@@ -733,8 +757,13 @@ a:hover {
     }
     
     .scripture {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         max-width: 95%;
+        line-height: 1.4;
+        padding: 0.5rem 1rem;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
     }
 }
 
