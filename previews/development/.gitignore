@@ -1,0 +1,31 @@
+# Video files (can be large - host on CDN instead)
+videos/
+*.mp4
+*.webm
+*.mov
+*.avi
+
+# Image files (uncomment if hosting images externally)
+# images/
+# *.jpg
+# *.jpeg
+# *.png
+# *.gif
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/
