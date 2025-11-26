@@ -142,48 +142,38 @@
         // Fit hero title
         const heroTitle = document.querySelector('.hero-title');
         if (heroTitle) {
-            const isMobile = window.innerWidth <= 767;
+            const minSize = 0.8; // rem
+            const maxSize = 4; // rem
+            const step = 0.1; // rem
             
-            if (isMobile) {
-                // Mobile: Start small and fit to container width
-                const minSize = 0.9;
-                const maxSize = 1.8;
-                const step = 0.05;
-                
-                let fontSize = minSize;
+            // Start with maximum size
+            let fontSize = maxSize;
+            heroTitle.style.fontSize = fontSize + 'rem';
+            
+            // Reduce font size until text fits
+            while ((heroTitle.scrollWidth > heroTitle.clientWidth || heroTitle.scrollHeight > heroTitle.clientHeight) && fontSize > minSize) {
+                fontSize -= step;
                 heroTitle.style.fontSize = fontSize + 'rem';
-                
-                // Increase font size until it's too wide or too tall
-                while (fontSize < maxSize) {
-                    const nextSize = fontSize + step;
-                    heroTitle.style.fontSize = nextSize + 'rem';
-                    
-                    // Check if text overflows container width or exceeds reasonable height
-                    if (heroTitle.scrollWidth > heroTitle.clientWidth || 
-                        heroTitle.scrollHeight > heroTitle.clientHeight * 0.8) {
-                        // Revert to previous size that worked
-                        heroTitle.style.fontSize = fontSize + 'rem';
-                        break;
-                    }
-                    fontSize = nextSize;
-                }
-            } else {
-                // Desktop: Original logic
-                const minSize = 0.8;
-                const maxSize = 4;
-                const step = 0.1;
-                
-                let fontSize = maxSize;
-                heroTitle.style.fontSize = fontSize + 'rem';
-                
-                while ((heroTitle.scrollWidth > heroTitle.clientWidth || heroTitle.scrollHeight > heroTitle.clientHeight) && fontSize > minSize) {
-                    fontSize -= step;
-                    heroTitle.style.fontSize = fontSize + 'rem';
-                }
             }
         }
         
-        // Scripture verse now uses CSS for sizing - no dynamic adjustment needed
+        // Fit scripture verse
+        const scripture = document.querySelector('.scripture p');
+        if (scripture) {
+            const minSize = 0.6; // rem
+            const maxSize = 2; // rem
+            const step = 0.05; // rem
+            
+            // Start with maximum size
+            let fontSize = maxSize;
+            scripture.style.fontSize = fontSize + 'rem';
+            
+            // Reduce font size until text fits
+            while ((scripture.scrollWidth > scripture.clientWidth || scripture.scrollHeight > scripture.clientHeight) && fontSize > minSize) {
+                fontSize -= step;
+                scripture.style.fontSize = fontSize + 'rem';
+            }
+        }
     }
     
     // Run on page load and window resize
@@ -203,7 +193,6 @@
                 <li><a href="gallery.html">Gallery</a></li>
                 <li><a href="#testimonials">Testimonials</a></li>
                 <li><a href="#mission">Mission</a></li>
-                <li><a href="service-area.html">Service Area</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <button class="nav-toggle" aria-label="Toggle navigation">
@@ -400,12 +389,16 @@
             <p>Contact us today for a free consultation and quote. Serving Central Oklahoma with excellence.</p>
             <div class="contact-info">
                 <div class="contact-item">
+                    <h3>📞 Phone</h3>
+                    <p><span onclick="showPhone(this)" class="phone-hidden">Click to show phone</span><span class="phone-number"><a href="tel:+14059857399">(405) 985-7399</a></span></p>
+                </div>
+                <div class="contact-item">
                     <h3>✉️ Email</h3>
-                    <p><span onclick="showPhone(this)" class="phone-hidden">Click to show email</span><span class="phone-number"><a href="mailto:getrdonewellservice@gmail.com">getrdonewellservice@gmail.com</a></span></p>
+                    <p><a href="mailto:getrdonewellservice@gmail.com">info@getrdonewellservice.com</a></p>
                 </div>
                 <div class="contact-item">
                     <h3>📍 Location</h3>
-                    <p><a href="service-area.html">Serving Central Oklahoma</a></p>
+                    <p>Serving Central Oklahoma</p>
                 </div>
                 <div class="contact-item">
                     <h3>📘 Facebook</h3>
@@ -413,18 +406,47 @@
                 </div>
             </div>
             <span class="btn btn-primary btn-large" onclick="showPhone(this)">Call <span class="phone-hidden">Phone</span><span class="phone-number">(405) 985-7399</span></span>
-            
-            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.2); text-align: center;">
-                <p>&copy; 2025 GET'R'DONE Well Service. All rights reserved.</p>
-                <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>GET'R'DONE Well Service</h4>
+                    <p>Professional water well services in Central Oklahoma</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                        <li><a href="#mission">Mission</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Phone: <span onclick="showPhone(this)" class="phone-hidden">Click to show</span><span class="phone-number"><a href="tel:+14059857399">(405) 985-7399</a></span></p>
+                    <p>Email: <a href="mailto:getrdonewellservice@gmail.com"><span class="email-protected">Email</span></a></p>
+                    <p>Facebook: <a href="https://www.facebook.com/profile.php?id=100064762753280" target="_blank" rel="noopener">Follow Us</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 GET'R'DONE Well Service. All rights reserved.</p>
+                <p class="footer-license">
                     This website and service are operated under Christ-centered principles. 
-                    We dedicate our work to the glory of God and the service of His people. 
-                    Don't know Christ? We'll still serve you with integrity, we'll even introduce you.
-                    <br><em>"Whatever you do, work at it with all your heart, as working for the Lord." — Colossians 3:23</em>
+                    We dedicate our work to the glory of God and the service of His people.
+                    <em>"Whatever you do, work at it with all your heart, as working for the Lord." — Colossians 3:23</em>
+                </p>
+                <p class="footer-attribution">
+                    Hero video from <a href="https://www.pexels.com/" target="_blank" rel="noopener">Pexels</a>
                 </p>
             </div>
         </div>
-    </section>
+    </footer>
 
     <script src="script.js"></script>
 </body>
