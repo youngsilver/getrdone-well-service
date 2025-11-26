@@ -264,6 +264,9 @@ a:hover {
     max-width: 800px;
     padding: 0 1rem;
     box-sizing: border-box;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .scripture-ref {
@@ -754,10 +757,13 @@ a:hover {
     }
     
     .scripture {
-        font-size: 0.95rem;
+        font-size: 0.85rem;
         max-width: 95%;
         line-height: 1.4;
         padding: 0.5rem 1rem;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
     }
 }
 
