@@ -59,16 +59,12 @@ jobs:
         run: |
           echo "${{ steps.deployment-path.outputs.deployment_type }} deployment for branch: ${{ steps.deployment-path.outputs.branch_name }}"
           echo "Destination: gh-pages${{ steps.deployment-path.outputs.url_path }}"
-<<<<<<< Updated upstream
           echo "Trigger: ${{ github.event_name }}"
-=======
           # Ensure CNAME file exists for custom domain
           if [ "${{ github.ref_name }}" = "main" ]; then
             echo "Deploying with custom domain support"
             ls -la CNAME || echo "CNAME file not found"
           fi
->>>>>>> Stashed changes
-
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
