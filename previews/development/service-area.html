@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>Service Area | GET'R'DONE Well Service | Central Oklahoma Coverage</title>
+    <meta name="description" content="GET'R'DONE Well Service coverage area map. We serve Chandler, Oklahoma City, Edmond, Norman, and surrounding Central Oklahoma communities with professional well services.">
+    <meta name="keywords" content="well service area Oklahoma, Chandler well drilling, Oklahoma City wells, Edmond well service, Norman well repair, Central Oklahoma coverage">
+    <meta name="author" content="GET'R'DONE Well Service">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://getrdonewell.com/service-area.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://getrdonewell.com/service-area.html">
+    <meta property="og:title" content="Service Area Map | GET'R'DONE Well Service">
+    <meta property="og:description" content="View our Central Oklahoma service area including Chandler, OKC, Edmond, Norman and surrounding communities.">
+    <meta property="og:image" content="https://getrdonewell.com/assets/logo.svg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,700;0,800;1,300&family=Open+Sans:wght@400&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+    /* Service Area Page Styles */
+    .service-area-page {
+        min-height: 100vh;
+        background: var(--light-color);
+    }
+    
+    .service-area-hero {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: var(--white);
+        padding: 8rem 0 4rem;
+        text-align: center;
+    }
+    
+    .service-area-hero h1 {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .service-area-hero p {
+        font-size: 1.25rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .service-area-main {
+        padding: 4rem 0;
+    }
+    
+    .map-container {
+        background: var(--white);
+        border-radius: 15px;
+        box-shadow: var(--shadow-lg);
+        padding: 2rem;
+        margin-bottom: 3rem;
+        text-align: center;
+    }
+    
+    .map-container h2 {
+        color: var(--dark-color);
+        margin-bottom: 1rem;
+        font-size: 2rem;
+    }
+    
+    .map-container p {
+        color: var(--text-color);
+        margin-bottom: 2rem;
+        font-size: 1.125rem;
+    }
+    
+    #service-map {
+        width: 100%;
+        height: 500px;
+        border-radius: 10px;
+        border: 3px solid var(--accent-color);
+        box-shadow: var(--shadow);
+    }
+    
+    .service-areas {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+    
+    .area-card {
+        background: var(--white);
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .area-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .area-card h3 {
+        color: var(--primary-color);
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .area-card .distance {
+        background: var(--accent-color);
+        color: var(--white);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        display: inline-block;
+    }
+    
+    .area-card ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .area-card ul li {
+        padding: 0.5rem 0;
+        color: var(--text-color);
+        border-bottom: 1px solid var(--light-color);
+    }
+    
+    .area-card ul li:last-child {
+        border-bottom: none;
+    }
+    
+    .coverage-note {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: var(--white);
+        padding: 2rem;
+        border-radius: 15px;
+        text-align: center;
+        margin-top: 3rem;
+    }
+    
+    .coverage-note h3 {
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+    
+    .coverage-note p {
+        font-size: 1.125rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .back-link {
+        display: inline-block;
+        margin: 2rem 0;
+        padding: 1rem 2rem;
+        background: var(--primary-color);
+        color: var(--white);
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+        background: var(--secondary-color);
+        transform: translateY(-2px);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .service-area-hero h1 {
+            font-size: 2.5rem;
+        }
+        
+        #service-map {
+            height: 400px;
+        }
+        
+        .service-areas {
+            grid-template-columns: 1fr;
+        }
+    }
+    </style>
+</head>
+<body class="service-area-page">
+    <!-- Header/Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a class="logo" href="./">
+                <img src="assets/logo.png" alt="GET'R'DONE Well Service logo">
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="index.html#testimonials">Testimonials</a></li>
+                <li><a href="index.html#mission">Mission</a></li>
+                <li><a href="service-area.html" class="active">Service Area</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Service Area Hero -->
+    <section class="service-area-hero">
+        <div class="container">
+            <h1>Our Service Area</h1>
+            <p>Proudly serving Central Oklahoma communities with professional water well services. Based in Chandler, we travel throughout the region to bring quality well drilling and repair services to your location.</p>
+            <a href="index.html" class="back-link">← Back to Home</a>
+        </div>
+    </section>
+
+    <!-- Service Area Main -->
+    <section class="service-area-main">
+        <div class="container">
+            <!-- Map Container -->
+            <div class="map-container">
+                <h2>Central Oklahoma Coverage</h2>
+                <p>We're centrally located in Chandler, Oklahoma, allowing us to efficiently serve a wide area across Central Oklahoma.</p>
+                
+                <!-- Interactive Map -->
+                <div id="service-map"></div>
+            </div>
+
+            <!-- Service Areas Grid -->
+            <div class="service-areas">
+                <div class="area-card">
+                    <h3>Primary Service Area</h3>
+                    <div class="distance">Within 25 miles</div>
+                    <ul>
+                        <li>Chandler</li>
+                        <li>Stroud</li>
+                        <li>Prague</li>
+                        <li>Davenport</li>
+                        <li>Carney</li>
+                        <li>Meeker</li>
+                        <li>Wellston</li>
+                        <li>Luther</li>
+                    </ul>
+                </div>
+
+                <div class="area-card">
+                    <h3>Extended Service Area</h3>
+                    <div class="distance">25-50 miles</div>
+                    <ul>
+                        <li>Oklahoma City</li>
+                        <li>Edmond</li>
+                        <li>Shawnee</li>
+                        <li>Stillwater</li>
+                        <li>Guthrie</li>
+                        <li>Cushing</li>
+                        <li>Seminole</li>
+                        <li>Tecumseh</li>
+                    </ul>
+                </div>
+
+                <div class="area-card">
+                    <h3>Available by Request</h3>
+                    <div class="distance">50+ miles</div>
+                    <ul>
+                        <li>Norman</li>
+                        <li>Yukon</li>
+                        <li>Sapulpa</li>
+                        <li>Ponca City</li>
+                        <li>Duncan</li>
+                        <li>Enid</li>
+                        <li>Lawton</li>
+                        <li>Other areas - call to discuss</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Coverage Note -->
+            <div class="coverage-note">
+                <h3>🚛 Travel & Service Calls</h3>
+                <p>We bring our services directly to your location. Travel charges may apply for distances over 25 miles from Chandler, OK. Emergency services available throughout our coverage area.</p>
+                <p><strong>Call us to confirm service availability in your area:</strong></p>
+                <span class="btn btn-primary" onclick="showPhone(this)" style="background: var(--white); color: var(--primary-color);">
+                    <span class="phone-hidden">Click for Phone</span>
+                    <span class="phone-number">(405) 985-7399</span>
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>GET'R'DONE Well Service</h4>
+                    <p>Professional water well services in Central Oklahoma</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html#services">Services</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="service-area.html">Service Area</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Phone: <span onclick="showPhone(this)" class="phone-hidden">Click to show</span><span class="phone-number"><a href="tel:+14059857399">(405) 985-7399</a></span></p>
+                    <p>Email: <a href="mailto:getrdonewellservice@gmail.com"><span class="email-protected">Email</span></a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 GET'R'DONE Well Service. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+    // Initialize map centered on Chandler, OK
+    function initMap() {
+        // Chandler, OK coordinates
+        const chandler = { lat: 35.7023, lng: -96.8808 };
+        
+        // Create map
+        const map = new google.maps.Map(document.getElementById('service-map'), {
+            zoom: 9,
+            center: chandler,
+            mapTypeId: 'roadmap',
+            styles: [
+                {
+                    "featureType": "water",
+                    "elementType": "geometry",
+                    "stylers": [{"color": "#3b82f6"}]
+                },
+                {
+                    "featureType": "landscape",
+                    "elementType": "geometry",
+                    "stylers": [{"color": "#f8fafc"}]
+                }
+            ]
+        });
+        
+        // Add marker for Chandler (business location)
+        const chandlerMarker = new google.maps.Marker({
+            position: chandler,
+            map: map,
+            title: "GET'R'DONE Well Service - Chandler, OK",
+            icon: {
+                url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iMTYiIGZpbGw9IiMxZTQwYWYiLz4KPGJ0ZXh0IHg9IjE2IiB5PSIyMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SDwvdGV4dD4KPC9zdmc+',
+                scaledSize: new google.maps.Size(40, 40),
+                anchor: new google.maps.Point(20, 20)
+            }
+        });
+        
+        // Add service area circles
+        // Primary service area (25 miles)
+        const primaryCircle = new google.maps.Circle({
+            strokeColor: '#1e40af',
+            strokeOpacity: 0.8,
+            strokeWeight: 3,
+            fillColor: '#3b82f6',
+            fillOpacity: 0.15,
+            map: map,
+            center: chandler,
+            radius: 40233 // 25 miles in meters
+        });
+        
+        // Extended service area (50 miles)
+        const extendedCircle = new google.maps.Circle({
+            strokeColor: '#60a5fa',
+            strokeOpacity: 0.6,
+            strokeWeight: 2,
+            fillColor: '#93c5fd',
+            fillOpacity: 0.1,
+            map: map,
+            center: chandler,
+            radius: 80467 // 50 miles in meters
+        });
+        
+        // Add info window
+        const infoWindow = new google.maps.InfoWindow({
+            content: `
+                <div style="padding: 10px; font-family: Arial, sans-serif;">
+                    <h3 style="margin: 0 0 10px 0; color: #1e40af;">GET'R'DONE Well Service</h3>
+                    <p style="margin: 0 0 5px 0;"><strong>Location:</strong> Chandler, OK</p>
+                    <p style="margin: 0 0 5px 0;"><strong>Primary Area:</strong> 25-mile radius</p>
+                    <p style="margin: 0 0 10px 0;"><strong>Extended Area:</strong> 50-mile radius</p>
+                    <p style="margin: 0; font-size: 12px; color: #666;">Professional water well services throughout Central Oklahoma</p>
+                </div>
+            `
+        });
+        
+        chandlerMarker.addListener('click', () => {
+            infoWindow.open(map, chandlerMarker);
+        });
+    }
+
+    // Load Google Maps
+    function loadGoogleMaps() {
+        if (typeof google !== 'undefined' && google.maps) {
+            initMap();
+        } else {
+            // Fallback: create a simple map placeholder
+            const mapDiv = document.getElementById('service-map');
+            mapDiv.innerHTML = `
+                <div style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); 
+                           color: white; 
+                           display: flex; 
+                           align-items: center; 
+                           justify-content: center; 
+                           height: 100%; 
+                           border-radius: 10px;
+                           font-size: 18px;
+                           text-align: center;">
+                    <div>
+                        <h3 style="margin-bottom: 10px;">📍 Chandler, Oklahoma</h3>
+                        <p style="margin: 0;">Serving 50+ mile radius in Central Oklahoma</p>
+                        <p style="margin: 10px 0 0 0; font-size: 14px; opacity: 0.9;">Interactive map loading...</p>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    // Phone protection function
+    function showPhone(element) {
+        let phoneSpan = element.querySelector('.phone-number');
+        let hiddenSpan = element.querySelector('.phone-hidden');
+        
+        if (!phoneSpan) {
+            phoneSpan = element.parentElement.querySelector('.phone-number');
+            hiddenSpan = element;
+        }
+        
+        if (phoneSpan && hiddenSpan) {
+            phoneSpan.classList.add('show');
+            hiddenSpan.style.display = 'none';
+        }
+    }
+
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        loadGoogleMaps();
+    });
+    </script>
+    
+    <!-- Google Maps API (optional - will fall back to styled placeholder if not loaded) -->
+    <script async defer 
+            src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
+            onerror="loadGoogleMaps()">
+    </script>
+</body>
+</html>
