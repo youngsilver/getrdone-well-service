@@ -142,18 +142,46 @@
         // Fit hero title
         const heroTitle = document.querySelector('.hero-title');
         if (heroTitle) {
-            const minSize = 0.8; // rem
-            const maxSize = 4; // rem
-            const step = 0.1; // rem
+            const isMobile = window.innerWidth <= 767;
             
-            // Start with maximum size
-            let fontSize = maxSize;
-            heroTitle.style.fontSize = fontSize + 'rem';
-            
-            // Reduce font size until text fits
-            while ((heroTitle.scrollWidth > heroTitle.clientWidth || heroTitle.scrollHeight > heroTitle.clientHeight) && fontSize > minSize) {
-                fontSize -= step;
+            if (isMobile) {
+                // Mobile: Size to fit exactly 2 lines
+                const minSize = 1.0;
+                const maxSize = 2.5;
+                const step = 0.05;
+                
+                let fontSize = maxSize;
                 heroTitle.style.fontSize = fontSize + 'rem';
+                
+                // Calculate line height in pixels
+                const computedStyle = window.getComputedStyle(heroTitle);
+                const lineHeight = parseFloat(computedStyle.lineHeight);
+                const targetHeight = lineHeight * 2; // Exactly 2 lines
+                
+                // Adjust font size to fit exactly 2 lines
+                while (heroTitle.scrollHeight > targetHeight && fontSize > minSize) {
+                    fontSize -= step;
+                    heroTitle.style.fontSize = fontSize + 'rem';
+                    
+                    // Recalculate line height after font size change
+                    const newLineHeight = parseFloat(window.getComputedStyle(heroTitle).lineHeight);
+                    const newTargetHeight = newLineHeight * 2;
+                    
+                    if (heroTitle.scrollHeight <= newTargetHeight) break;
+                }
+            } else {
+                // Desktop: Original logic
+                const minSize = 0.8;
+                const maxSize = 4;
+                const step = 0.1;
+                
+                let fontSize = maxSize;
+                heroTitle.style.fontSize = fontSize + 'rem';
+                
+                while ((heroTitle.scrollWidth > heroTitle.clientWidth || heroTitle.scrollHeight > heroTitle.clientHeight) && fontSize > minSize) {
+                    fontSize -= step;
+                    heroTitle.style.fontSize = fontSize + 'rem';
+                }
             }
         }
         
