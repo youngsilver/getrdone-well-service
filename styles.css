@@ -38,6 +38,18 @@ body {
     background-color: var(--light-color);
 }
 
+/* Default link styling */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s, opacity 0.3s;
+}
+
+a:hover {
+    color: var(--secondary-color);
+    opacity: 0.8;
+}
+
 /* Container */
 .container {
     max-width: 1200px;
@@ -773,6 +785,39 @@ body {
 /* Smooth Scrolling */
 html {
     scroll-behavior: smooth;
+}
+
+/* Phone Display Toggle */
+.phone-hidden {
+    cursor: pointer;
+    color: #ffffff;
+}
+
+.phone-number {
+    display: none;
+}
+
+.phone-number.show {
+    display: inline;
+}
+
+.email-protected {
+    font-size: 0;
+    display: inline;
+}
+
+.email-protected::before {
+    content: "getrdonewellservice@gmail.com";
+    font-size: 1rem;
+}
+
+.btn .phone-protected::before,
+.btn .phone-protected::after,
+.btn .email-protected::before,
+a .phone-protected::before,
+a .phone-protected::after,
+a .email-protected::before {
+    font-size: inherit;
 }
 
 /* Accessibility */
