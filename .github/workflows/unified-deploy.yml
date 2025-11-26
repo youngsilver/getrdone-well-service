@@ -1,8 +1,19 @@
-name: Deploy to GitHub Pages
+name: 🚀 Deploy to GitHub Pages
 
 on:
   push:
     branches: [ main, development ]
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy'
+        required: true
+        default: 'development'
+        type: choice
+        options:
+        - main
+        - development
+        - test
 
 permissions:
   contents: write
@@ -20,6 +31,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.inputs.branch || github.ref_name }}
           fetch-depth: 0
 
       - name: Setup Node.js (optional)
@@ -30,20 +42,24 @@ jobs:
       - name: Determine deployment path
         id: deployment-path
         run: |
-          if [ "${{ github.ref_name }}" = "main" ]; then
+          BRANCH="${{ github.event.inputs.branch || github.ref_name }}"
+          if [ "$BRANCH" = "main" ]; then
             echo "destination_dir=" >> $GITHUB_OUTPUT
             echo "deployment_type=Production" >> $GITHUB_OUTPUT
             echo "url_path=" >> $GITHUB_OUTPUT
+            echo "branch_name=$BRANCH" >> $GITHUB_OUTPUT
           else
-            echo "destination_dir=previews/${{ github.ref_name }}" >> $GITHUB_OUTPUT
+            echo "destination_dir=previews/$BRANCH" >> $GITHUB_OUTPUT
             echo "deployment_type=Preview" >> $GITHUB_OUTPUT
-            echo "url_path=/previews/${{ github.ref_name }}" >> $GITHUB_OUTPUT
+            echo "url_path=/previews/$BRANCH" >> $GITHUB_OUTPUT
+            echo "branch_name=$BRANCH" >> $GITHUB_OUTPUT
           fi
 
       - name: Build (no build step required)
         run: |
-          echo "${{ steps.deployment-path.outputs.deployment_type }} deployment for branch: ${{ github.ref_name }}"
+          echo "${{ steps.deployment-path.outputs.deployment_type }} deployment for branch: ${{ steps.deployment-path.outputs.branch_name }}"
           echo "Destination: gh-pages${{ steps.deployment-path.outputs.url_path }}"
+          echo "Trigger: ${{ github.event_name }}"
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -56,10 +72,11 @@ jobs:
       - name: Write deployment summary
         run: |
           echo "## 🚀 ${{ steps.deployment-path.outputs.deployment_type }} Deployment" >> $GITHUB_STEP_SUMMARY
-          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ steps.deployment-path.outputs.branch_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Trigger:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
           echo "**Destination:** gh-pages${{ steps.deployment-path.outputs.url_path }}" >> $GITHUB_STEP_SUMMARY
-          if [ "${{ github.ref_name }}" = "main" ]; then
+          if [ "${{ steps.deployment-path.outputs.branch_name }}" = "main" ]; then
             echo "**URL:** https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/" >> $GITHUB_STEP_SUMMARY
           else
-            echo "**URL:** https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/previews/${{ github.ref_name }}/" >> $GITHUB_STEP_SUMMARY
+            echo "**URL:** https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/previews/${{ steps.deployment-path.outputs.branch_name }}/" >> $GITHUB_STEP_SUMMARY
           fi
