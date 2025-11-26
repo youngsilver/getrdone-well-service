@@ -262,8 +262,10 @@ a:hover {
     line-height: 1.4;
     text-align: center;
     max-width: 90vw;
-    white-space: nowrap;
-    overflow: hidden;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
     box-sizing: border-box;
 }
 
@@ -674,6 +676,9 @@ a:hover {
         font-size: 0.9rem !important; /* Override JS if needed */
         max-width: 90%;
         line-height: 1.3;
+        white-space: normal;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
     
     .nav-menu.open {
@@ -733,6 +738,9 @@ a:hover {
         font-size: 0.8rem !important; /* Smaller for very small screens */
         max-width: 95%;
         line-height: 1.2;
+        white-space: normal;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
 }
 
