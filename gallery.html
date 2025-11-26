@@ -227,15 +227,6 @@
     <!-- Gallery Main -->
     <section class="gallery-main">
         <div class="container">
-            <!-- Gallery Filters -->
-            <div class="gallery-filters">
-                <button class="filter-btn active" data-filter="all">All Projects</button>
-                <button class="filter-btn" data-filter="drilling">Well Drilling</button>
-                <button class="filter-btn" data-filter="pump">Pump Installation</button>
-                <button class="filter-btn" data-filter="maintenance">Maintenance</button>
-                <button class="filter-btn" data-filter="emergency">Emergency Service</button>
-            </div>
-
             <!-- Loading Message -->
             <div id="loading" class="loading">
                 <p>Loading gallery images...</p>
@@ -345,33 +336,27 @@
                 // Extract base name for title generation
                 const baseName = imageName.split('/').pop();
                 
-                // Generate category based on filename patterns
-                let category = 'drilling';
-                let title = 'Well Service Project';
-                let description = 'Professional well service work in Central Oklahoma';
+                // Random job scene descriptions - no specific project numbers
+                const jobScenes = [
+                    { title: 'Well Drilling Scene', description: 'On-site drilling operations', category: 'drilling' },
+                    { title: 'Equipment Setup', description: 'Professional drilling equipment in action', category: 'drilling' },
+                    { title: 'Pump Work', description: 'Pump installation and maintenance', category: 'pump' },
+                    { title: 'Job Site', description: 'Well service work in progress', category: 'drilling' },
+                    { title: 'Service Call', description: 'Field service operations', category: 'maintenance' },
+                    { title: 'Drilling Operations', description: 'Water well drilling work', category: 'drilling' },
+                    { title: 'Equipment Maintenance', description: 'Maintaining drilling equipment', category: 'maintenance' },
+                    { title: 'Field Work', description: 'Professional well services', category: 'drilling' },
+                    { title: 'Pump Services', description: 'Pump repair and installation', category: 'pump' },
+                    { title: 'Well Site', description: 'Active well service location', category: 'drilling' }
+                ];
                 
-                if (baseName.includes('pump') || baseName.includes('installation')) {
-                    category = 'pump';
-                    title = 'Pump Installation';
-                    description = 'Professional pump installation and setup';
-                } else if (baseName.includes('maintenance') || baseName.includes('repair')) {
-                    category = 'maintenance'; 
-                    title = 'Well Maintenance';
-                    description = 'Regular maintenance and system checks';
-                } else if (baseName.includes('emergency')) {
-                    category = 'emergency';
-                    title = 'Emergency Service';
-                    description = 'Fast response emergency well service';
-                } else if (baseName.includes('drill')) {
-                    category = 'drilling';
-                    title = 'Well Drilling';
-                    description = 'Complete well drilling project';
-                }
+                // Randomly assign a job scene description
+                const scene = jobScenes[index % jobScenes.length];
                 
                 return {
                     url: `https://res.cloudinary.com/${cloudName}/image/upload/c_fill,w_400,h_280,q_auto,f_auto/${imageName}`,
-                    title: `${title} #${index + 1}`,
-                    description: description,
+                    title: scene.title,
+                    description: scene.description,
                     category: category,
                     publicId: imageName
                 };
@@ -427,36 +412,12 @@
         }
     }
 
-    // Filter functionality
-    function setupFilters() {
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const galleryItems = document.querySelectorAll('.gallery-item');
 
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all buttons
-                filterBtns.forEach(b => b.classList.remove('active'));
-                // Add active class to clicked button
-                btn.classList.add('active');
-                
-                const filter = btn.dataset.filter;
-                
-                galleryItems.forEach(item => {
-                    if (filter === 'all' || item.classList.contains(filter)) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            });
-        });
-    }
 
     // Load gallery when page loads
     document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             loadGallery();
-            setupFilters();
         }, 1000); // Simulate loading delay
     });
 
